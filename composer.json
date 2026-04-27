@@ -1,0 +1,37 @@
+{
+  "name": "elcioreis/sigeti_cax",
+  "description": "Sistema de gerenciamento de chamados de TI.",
+  "type": "project",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Élcio Reis",
+      "role": "Desenvolvedor"
+    },
+    {
+      "name": "Pedro Leandro",
+      "role": "Professor"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    },
+    "files" : [
+      "config/app.php",
+      "app/Helpers/csrf.php",
+      "app/Helpers/url.php",
+      "app/Helpers/old.php"
+    ]
+  },
+  "require": {
+    "php": "^8.2",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.6",
+    "league/plates": "^3.6",
+    "coffeecode/router": "^2.0",
+    "coffeecode/paginator": "^2.0",
+    "phpmailer/phpmailer": "^7.0.0"
+  }
+
+}
