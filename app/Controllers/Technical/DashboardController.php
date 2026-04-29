@@ -21,12 +21,12 @@ class DashboardController extends Controller
         $ticketModel = new Ticket();
         $tickets = (new Ticket())->ticketsOrderedByStatusPriorityAndOpeningDate();
 
-        $quantityTicketsByMonth = $ticketModel->countTicketsByMonth(2024);
-        $quantityTicketsByCategory = $ticketModel->countTicketsByCategory(2024);
-        $quantityTicketsByStatus = $ticketModel->countTicketsByStatus(2024);
+        $quantityTicketsByMonth = $ticketModel->countTicketsByMonth(null, 2024);
+        $quantityTicketsByCategory = $ticketModel->countTicketsByCategory(null,2024);
+        $quantityTicketsByStatus = $ticketModel->countTicketsByStatus(null, 2024);
 
-        $avgResolutionDays = $ticketModel->avgResolutionDaysByMonthCurrentYear(2024);
-        $ticketsByPriorityAndStatus = $ticketModel->countByPriorityAndStatusCurrentYear(2024);
+        $avgResolutionDays = $ticketModel->avgResolutionDaysByMonthCurrentYear( 2024);
+        $ticketsByPriorityAndStatus = $ticketModel->countByPriorityAndStatusCurrentYear( 2024);
 
         echo $this->view->render("technical/dashboard", [
             "tickets" => $tickets,
