@@ -1,6 +1,6 @@
 .idea/
 .vs_code/
-.storage/
+storage/
 vendor/
 node_modules/
 .env
