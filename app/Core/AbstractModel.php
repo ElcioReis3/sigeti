@@ -2,8 +2,8 @@
 
 namespace App\Core;
 
-use DateTimeImmutable;
-use DateTimeZone;
+use \DateTimeImmutable;
+use \DateTimeZone;
 use PDO;
 
 abstract class AbstractModel
@@ -17,6 +17,8 @@ abstract class AbstractModel
     protected array $required = [];
 
     protected bool $timestamps = true;
+
+    protected bool $softDelete = true;
 
     protected array $attributes = [];
 
@@ -93,133 +95,208 @@ abstract class AbstractModel
 
     public function performInsert(): bool
     {
-        if ($this->timestamps) {
-            $now = $this->now();
+        try{
 
-            $this->attributes['created_at'] = $now;
-            $this->attributes['updated_at'] = $now;
-        }
+            if ($this->timestamps) {
+                $now = $this->now();
 
-        $columns = array_keys($this->attributes);
-
-        $placeholders = [];
-        foreach ($columns as $column) {
-            $placeholders[] = ':' . $column;
-        }
-
-        $sql = sprintf(
-            "INSERT INTO %s (%s) VALUES (%s)",
-            $this->table,
-            implode(', ', $columns),
-            implode(', ', $placeholders)
-        );
-
-        $statement = $this->connection->prepare($sql);
-
-        $success = $statement->execute($this->attributes);
-
-        if ($success) {
-            $lastId = $this->connection->lastInsertId();
-
-            if ($lastId && !isset($this->attributes[$this->primaryKey])) {
-                $this->attributes[$this->primaryKey] = (int)$lastId;
+                $this->attributes['created_at'] = $now;
+                $this->attributes['updated_at'] = $now;
             }
 
-            $this->exists = true;
-        }
+            $columns = array_keys($this->attributes);
 
-        return $success;
+            $placeholders = [];
+            foreach ($columns as $column) {
+                $placeholders[] = ':' . $column;
+            }
+
+            $sql = sprintf(
+                "INSERT INTO %s (%s) VALUES (%s)",
+                $this->table,
+                implode(', ', $columns),
+                implode(', ', $placeholders)
+            );
+
+            $statement = $this->connection->prepare($sql);
+
+            $success = $statement->execute($this->attributes);
+
+            if ($success) {
+                $lastId = $this->connection->lastInsertId();
+
+                if ($lastId && !isset($this->attributes[$this->primaryKey])) {
+                    $this->attributes[$this->primaryKey] = (int)$lastId;
+                }
+
+                $this->exists = true;
+            }
+
+            return $success;
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao inserir registro na tabela {$this->table}: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
+        }
     }
 
     public function performUpdate(): bool
     {
-        if ($this->timestamps) {
-            $this->attributes['updated_at'] = $this->now();
-        }
+        try {
 
-        $fields = [];
-
-        foreach ($this->attributes as $column => $value) {
-            if ($column !== $this->primaryKey) {
-                $fields[] = "{$column} = :{$column}";
+            if ($this->timestamps) {
+                $this->attributes['updated_at'] = $this->now();
             }
+
+            $fields = [];
+
+            foreach ($this->attributes as $column => $value) {
+                if ($column !== $this->primaryKey) {
+                    $fields[] = "{$column} = :{$column}";
+                }
+            }
+
+            $sql = sprintf(
+                "UPDATE %s SET %s WHERE %s = :%s",
+                $this->table,
+                implode(', ', $fields),
+                $this->primaryKey,
+                $this->primaryKey
+            );
+
+            $statement = $this->connection->prepare($sql);
+
+            return $statement->execute($this->attributes);
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao atualizar registro na tabela {$this->table}: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
         }
-
-        $sql = sprintf(
-            "UPDATE %s SET %s WHERE %s = :%s",
-            $this->table,
-            implode(', ', $fields),
-            $this->primaryKey,
-            $this->primaryKey
-        );
-
-        $statement = $this->connection->prepare($sql);
-
-        return $statement->execute($this->attributes);
     }
 
     public function delete(): bool
     {
-        if (!$this->exists) {
-            return false;
+        try {
+
+            if (!$this->exists) {
+                return false;
+            }
+
+            if ($this->softDelete) {
+                $sql = sprintf(
+                    "UPDATE %s SET deleted_at = :deleted_at WHERE %s = :id",
+                    $this->table,
+                    $this->primaryKey
+                );
+
+                $statement = $this->connection->prepare($sql);
+
+                return $statement->execute([
+                    'deleted_at' => $this->now(),
+                    'id' => $this->attributes[$this->primaryKey]
+                ]);
+            }
+
+            $sql = sprintf(
+                "DELETE FROM %s WHERE %s = :id",
+                $this->table,
+                $this->primaryKey
+            );
+
+            $statement = $this->connection->prepare($sql);
+
+            return $statement->execute([
+                'id' => $this->attributes[$this->primaryKey]
+            ]);
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao deletar registro na tabela {$this->table}: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
         }
-
-        $sql = sprintf(
-            "DELETE FROM %s WHERE %s = :id",
-            $this->table,
-            $this->primaryKey
-        );
-
-        $statement = $this->connection->prepare($sql);
-
-        $success = $statement->execute([
-            'id' => $this->attributes[$this->primaryKey]
-        ]);
-
-        if ($success) {
-            $this->exists = false;
-        }
-
-        return $success;
     }
 
     public static function find(int $id): ?static
     {
-        $instance = new static();
+        try {
 
-        $sql = sprintf(
-            "SELECT * FROM %s WHERE %s = :id LIMIT 1",
-            $instance->table,
-            $instance->primaryKey
-        );
+            $instance = new static();
 
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute(['id' => $id]);
+            $sql = sprintf(
+                "SELECT * FROM %s WHERE %s = :id",
+                $instance->table,
+                $instance->primaryKey
+            );
 
-        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $instance->applySoftDeleteFilter($sql);
 
-        $data = $statement->fetch();
+            $sql .= " LIMIT 1";
 
-        return $data ? static::hydrate($data) : null;
+            $statement = $instance->connection->prepare($sql);
+            $statement->execute(['id' => $id]);
+
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+            $data = $statement->fetch();
+
+            return $data ? static::hydrate($data) : null;
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao buscar registro por id: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
+        }
     }
 
     public static function all(): array
     {
-        $instance = new static();
+        try {
 
-        $sql = "SELECT * FROM {$instance->table}";
+            $instance = new static();
 
-        $statement = $instance->connection->query($sql);
+            $sql = "SELECT * FROM {$instance->table}";
 
-        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $instance->applySoftDeleteFilter($sql);
 
-        $models = [];
+            $statement = $instance->connection->query($sql);
 
-        while ($row = $statement->fetch()) {
-            $models[] = static::hydrate($row);
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+            $models = [];
+
+            while ($row = $statement->fetch()) {
+                $models[] = static::hydrate($row);
+            }
+
+            return $models;
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao buscar todos os registros: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
         }
-
-        return $models;
     }
 
     public function where(string $column, string $operator, mixed $value): self
@@ -232,30 +309,139 @@ abstract class AbstractModel
         return $this;
     }
 
+    public function whereIn(string $column, array $values): self
+    {
+        $placeholders = [];
+
+        foreach ($values as $i => $value) {
+            $param = $column . '_in_' . $i;
+            $placeholders[] = ':' . $param;
+            $this->params[$param] = $value;
+        }
+
+        $this->wheres[] = "{$column} IN (" . implode(', ', $placeholders) . ")";
+
+        return $this;
+    }
+
+    public function countGroupBy(string $column): array
+    {
+        try {
+
+            $sql = "SELECT {$column}, COUNT(*) as total FROM {$this->table}";
+
+            if (!empty($this->wheres)) {
+                $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            }
+
+            $this->applySoftDeleteFilter($sql);
+
+            $sql .= " GROUP BY {$column}";
+
+            $statement = $this->connection->prepare($sql);
+
+            $statement->execute($this->params);
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao agrupar registros por {$column}: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
+        }
+    }
+
+    public function get(): array
+    {
+        try {
+
+            $sql = "SELECT * FROM {$this->table}";
+
+            if (!empty($this->wheres)) {
+                $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            }
+
+            $this->applySoftDeleteFilter($sql);
+
+            if ($this->orderByColumn) {
+                $sql .= " ORDER BY {$this->orderByColumn} {$this->orderDirection}";
+            }
+
+            if ($this->limitValue !== null) {
+                $sql .= " LIMIT {$this->limitValue}";
+            }
+
+            if ($this->offsetValue !== null) {
+                $sql .= " OFFSET {$this->offsetValue}";
+            }
+
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($this->params);
+
+            $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            $models = [];
+            foreach ($rows as $row) {
+                $models[] = static::hydrate($row);
+            }
+
+            return $models;
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao buscar registros: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
+        }
+    }
+
     public function first(): ?static
     {
-        $this->limit(1);
+        try {
 
-        $sql = "SELECT * FROM {$this->table}";
+            $this->limit(1);
 
-        if (!empty($this->wheres)) {
-            $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            $sql = "SELECT * FROM {$this->table}";
+
+            if (!empty($this->wheres)) {
+                $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            }
+
+            $this->applySoftDeleteFilter($sql);
+
+            if ($this->orderByColumn) {
+                $sql .= " ORDER BY {$this->orderByColumn} {$this->orderDirection}";
+            }
+
+            if ($this->limitValue !== null) {
+                $sql .= " LIMIT {$this->limitValue}";
+            }
+
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($this->params);
+
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            $data = $statement->fetch();
+
+            return $data ? static::hydrate($data) : null;
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao buscar primeiro registro: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
         }
-
-        if ($this->orderByColumn) {
-            $sql .= " ORDER BY {$this->orderByColumn} {$this->orderDirection}";
-        }
-
-        $sql .= " LIMIT 1";
-
-        $statement = $this->connection->prepare($sql);
-        $statement->execute($this->params);
-
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-
-        $data = $statement->fetch();
-
-        return $data ? static::hydrate($data) : null;
     }
 
     public function orderBy(string $column, string $direction = 'ASC'): self
@@ -278,39 +464,6 @@ abstract class AbstractModel
         return $this;
     }
 
-    public function get(): array
-    {
-        $sql = "SELECT * FROM {$this->table}";
-
-        if (!empty($this->wheres)) {
-            $sql .= " WHERE " . implode(' AND ', $this->wheres);
-        }
-
-        if ($this->orderByColumn) {
-            $sql .= " ORDER BY {$this->orderByColumn} {$this->orderDirection}";
-        }
-
-        if ($this->limitValue !== null) {
-            $sql .= " LIMIT {$this->limitValue}";
-        }
-
-        if ($this->offsetValue !== null) {
-            $sql .= " OFFSET {$this->offsetValue}";
-        }
-
-        $statement = $this->connection->prepare($sql);
-        $statement->execute($this->params);
-
-        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        $models = [];
-        foreach ($rows as $row) {
-            $models[] = static::hydrate($row);
-        }
-
-        return $models;
-    }
-
     public function getAttributes(): array
     {
         return $this->attributes;
@@ -318,16 +471,30 @@ abstract class AbstractModel
 
     public function count(): int
     {
-        $sql = "SELECT COUNT(*) as total FROM {$this->table}";
+        try {
 
-        if (!empty($this->wheres)) {
-            $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            $sql = "SELECT COUNT(*) as total FROM {$this->table}";
+
+            if (!empty($this->wheres)) {
+                $sql .= " WHERE " . implode(' AND ', $this->wheres);
+            }
+
+            $this->applySoftDeleteFilter($sql);
+
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($this->params);
+
+            return (int)$statement->fetchColumn();
+
+        }catch (\PDOException $PDOException){
+
+            throw new \InvalidArgumentException(
+                "Erro ao contar registros: " . $PDOException->getMessage(),
+                (int)$PDOException->getCode(),
+                $PDOException
+            );
+
         }
-
-        $statement = $this->connection->prepare($sql);
-        $statement->execute($this->params);
-
-        return (int) $statement->fetchColumn();
     }
 
     protected static function hydrate(array $data): static
@@ -341,9 +508,19 @@ abstract class AbstractModel
 
     protected function now(): string
     {
-        $timezone = new DateTimeZone($_ENV['APP_TIMEZONE'] ?? 'America/Sao_Paulo');
-        $now = new DateTimeImmutable('now', $timezone);
+        return (new \DateTimeImmutable('now', new \DateTimeZone(APP_TIMEZONE)))->format('Y-m-d H:i:s');
+    }
 
-        return $now->format('Y-m-d H:i:s');
+    protected function applySoftDeleteFilter(string &$sql): void
+    {
+        if (!$this->softDelete) {
+            return;
+        }
+
+        if (stripos($sql, 'WHERE') === false) {
+            $sql .= " WHERE deleted_at IS NULL";
+        } else {
+            $sql .= " AND deleted_at IS NULL";
+        }
     }
 }
