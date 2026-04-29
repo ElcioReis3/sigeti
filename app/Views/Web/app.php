@@ -69,12 +69,13 @@
         <!-- Logo -->
         <a href="<?= url('/') ?>" class="sg-logo" aria-label="SIGETI — página inicial">
             <img src="<?= assets_flex_start('/assets/img/logo.png') ?>" alt="SIGETI" class="sg-logo-img">
+
         </a>
 
         <!-- Nav desktop -->
         <nav class="sg-nav" id="sg-nav" aria-label="Navegação principal">
             <ul>
-                <li><a href="<?= url('/') ?>" class="sg-nav-active">Home</a></li>
+                <li><a href="<?= url('/') ?>#" class="sg-nav-active">Home</a></li>
                 <li><a href="<?= url('/') ?>#about">Sobre</a></li>
                 <li><a href="<?= url('/') ?>#services">Serviços</a></li>
                 <li><a href="<?= url('/') ?>#team">Time</a></li>
@@ -99,7 +100,7 @@
     <div class="sg-drawer" id="sg-drawer" aria-hidden="true">
         <nav aria-label="Menu mobile">
             <ul>
-                <li><a href="<?= url('/') ?>">Home</a></li>
+                <li><a href="<?= url('/') ?>#">Home</a></li>
                 <li><a href="<?= url('/') ?>#about">Sobre</a></li>
                 <li><a href="<?= url('/') ?>#services">Serviços</a></li>
                 <li><a href="<?= url('/') ?>#team">Time</a></li>
@@ -173,7 +174,7 @@
                 <div class="col-lg-2 col-md-4 col-6">
                     <h5 class="ft-col-title">Links Úteis</h5>
                     <ul class="ft-links">
-                        <li><a href="<?= url('/') ?>">Home</a></li>
+                        <li><a href="<?= url('/') ?>#">Home</a></li>
                         <li><a href="<?= url('/') ?>#about">Sobre nós</a></li>
                         <li><a href="<?= url('/') ?>#services">Serviços</a></li>
                         <li><a href="<?= url('/') ?>#team">Nossa equipe</a></li>

@@ -368,7 +368,7 @@
 
         <div class="container">
 
-            <div class="row gy-2 justify-content-center">
+            <div class="row gy-4 justify-content-center">
 
 
 
@@ -428,7 +428,7 @@
 
             </div>
 
-            <div class="row gy-2 justify-content-center mt-4">
+            <div class="row gy-4 justify-content-center mt-4">
 
 
 
