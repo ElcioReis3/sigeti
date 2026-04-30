@@ -10,15 +10,15 @@ class Permission extends AbstractModel
     protected string $primaryKey = 'id';
 
     protected array $fillable = [
-            "name",
-            "label",
-            "group_name"
+        "name",
+        "label",
+        "group_name"
     ];
 
     protected array $required = [
-            "name" => "O Campo NOME é obrigatório ",
-            "label" => "O Campo DESCRIÇÃO é obrigatório",
-            "group_name" => "O Campo GRUPO é obrigatório"
+        "name" => "O Campo NOME é obrigatório ",
+        "label" => "O Campo DESCRIÇÃO é obrigatório",
+        "group_name" => "O Campo GRUPO é obrigatório"
     ];
     protected bool $timestamps = false;
 
