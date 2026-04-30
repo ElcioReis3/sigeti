@@ -42,7 +42,7 @@ class TicketComment extends AbstractModel
     {
 
         if (!$userId) {
-            throw new \InvalidArgumentException("O código é obrigaatório.");
+            throw new \InvalidArgumentException("O código é obrigatório.");
         }
 
         $this->attributes["user_id"] = $userId;
