@@ -159,4 +159,50 @@ class Department extends AbstractModel
 
         return $errors;
     }
+
+    public function existsDepartmentByCode(string $code, ?int $ignoreId = null): bool
+    {
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE code = :code AND deleted_at IS NULL";
+        $params = ["code" => $code];
+
+        if ($ignoreId) {
+            $sql .= " AND id != :ignore_id";
+            $params["ignore_id"] = $ignoreId;
+        }
+
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        return (int)$statement->fetchColumn() > 0;
+    }
+
+    public function existsDepartmentByName(string $name, ?int $ignoreId = null): bool
+    {
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE name = :name AND deleted_at IS NULL";
+        $params = ["name" => $name];
+
+        if ($ignoreId) {
+            $sql .= " AND id != :ignore_id";
+            $params["ignore_id"] = $ignoreId;
+        }
+
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        return (int)$statement->fetchColumn() > 0;
+    }
+
+    public function existsUsers(): bool
+    {
+        return (new UserDepartment())
+                ->where("department_id", "=", $this->getId())
+                ->count() > 0;
+    }
+
+    public function existsTickets(): bool
+    {
+        return (new Ticket())
+                ->where("school_id", "=", $this->getId())
+                ->count() > 0;
+    }
 }
