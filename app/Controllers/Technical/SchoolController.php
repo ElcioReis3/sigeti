@@ -6,6 +6,7 @@ namespace App\Controllers\Technical;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Message;
+use App\Core\Permission;
 use App\Models\School;
 use App\Models\User;
 
@@ -15,7 +16,7 @@ class SchoolController extends Controller
     {
         parent::__construct("App");
 
-        Auth::requireRole(User::TECHNICAL);
+        Auth::requirePermission(Permission::VIEW_SCHOOLS);
     }
 
     public function index(): void
@@ -29,11 +30,13 @@ class SchoolController extends Controller
 
     public function create(): void
     {
+        Auth::requirePermission(Permission::CREATE_SCHOOL);
         echo $this->view->render("technical/school/create");
     }
 
     public function store(?array $data): void
     {
+        Auth::requirePermission(Permission::CREATE_SCHOOL);
         $this->validateCsrfToken($data, "/tecnico/escolas/cadastrar");
 
         $newSchool = new School();
@@ -71,6 +74,7 @@ class SchoolController extends Controller
 
     public function edit(?array $data): void
     {
+        Auth::requirePermission(Permission::EDIT_SCHOOL);
         $school = School::find($data["id"]);
 
         if (!$school) {
@@ -86,6 +90,7 @@ class SchoolController extends Controller
 
     public function update(?array $data): void
     {
+        Auth::requirePermission(Permission::EDIT_SCHOOL);
         $this->validateCsrfToken($data, "/tecnico/escolas/editar/" . $data['id']);
 
         $school = School::find($data["id"]);
