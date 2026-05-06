@@ -24,3 +24,8 @@ define("EMAIL_SEND", $_ENV['EMAIL_SEND'] ?? "contato@sigeti.com.br");
 define("EMAIL_NAME", $_ENV['EMAIL_NAME'] ?? "Equipe Técnica do SIGETI");
 define("USERNAME_SENDGRID", $_ENV['USERNAME_SENDGRID'] ?? "apikey");
 define("PASSWORD_SENDGRID", $_ENV['PASSWORD_SENDGRID'] ?? "secret");
+
+define("TICKET_MAX_ATTACHMENTS", $_ENV['TICKET_MAX_ATTACHMENTS'] ?? 10);
+define("UPLOAD_MAX_SIZE", $_ENV['UPLOAD_MAX_SIZE'] ?? 5*1024*1024);
+
+const UPLOAD_PATH =  __DIR__ . "/../storage/uploads";
