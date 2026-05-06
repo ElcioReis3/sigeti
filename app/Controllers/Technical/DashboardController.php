@@ -4,6 +4,7 @@ namespace App\Controllers\Technical;
 
 use App\Core\Auth;
 use App\Core\Controller;
+use App\Core\Permission;
 use App\Models\Ticket;
 use App\Models\User;
 
@@ -13,7 +14,7 @@ class DashboardController extends Controller
     {
         parent::__construct("App");
 
-        Auth::requireRole(User::TECHNICAL);
+        Auth::requirePermission(Permission::VIEW_TECHNICAL_DASHBOARD);
     }
 
     public function index(): void
