@@ -19,6 +19,7 @@ class DashboardController extends Controller
 
     public function index(): void
     {
+        Auth::requirePermission(Permission::VIEW_TECHNICAL_DASHBOARD);
         $ticketModel = new Ticket();
         $tickets = (new Ticket())->ticketsOrderedByStatusPriorityAndOpeningDate();
 
