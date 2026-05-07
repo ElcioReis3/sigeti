@@ -24,6 +24,7 @@ class TicketController extends Controller
 
     public function index(): void
     {
+        Auth::requirePermission(Permission::VIEW_ALL_TICKETS);
         $tickets = (new Ticket())->ticketsOrderedByStatusPriorityAndOpeningDate();
         $quantityTicketsByMonth = (new Ticket())->countTicketsByMonth(2024);
 
