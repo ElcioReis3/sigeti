@@ -92,7 +92,11 @@ $router->get("/chamados/{ticket_id}/comentarios", "Teach\\TicketCommentControlle
 $router->post("/chamados/{ticket_id}/comentarios", "Teach\\TicketCommentController@store");
 
 
+$router->group(null);
+$router->get("/erro/{errorCode}", "ErrorController@index");
+
 $router->dispatch();
+
 if($router->error()){
-    echo "<h1> Erro: {$router->error()}</h1>";
+    redirect("/erro/{$router->error()}");
 }
