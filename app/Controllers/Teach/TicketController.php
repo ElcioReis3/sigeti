@@ -19,7 +19,7 @@ class TicketController extends Controller
     {
         parent::__construct("App");
 
-        Auth::requirePermission(Permission::OPEN_TICKET);
+        //Auth::requirePermission(Permission::OPEN_TICKET);
     }
 
     public function index(): void
@@ -37,6 +37,7 @@ class TicketController extends Controller
 
     public function create(): void
     {
+        Auth::requirePermission(Permission::OPEN_TICKET);
         $categories = Category::all();
         $links = SchoolUser::linksByUser(Auth::user()->id);
 
@@ -63,6 +64,7 @@ class TicketController extends Controller
 
     public function store(?array $data): void
     {
+        Auth::requirePermission(Permission::OPEN_TICKET);
         $this->validateCsrfToken($data, "/professor/chamados/cadastrar");
 
         $loggedUser = User::find(Auth::user()->id);
