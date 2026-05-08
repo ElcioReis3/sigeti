@@ -8,4 +8,7 @@ $router->namespace("app\Controllers");
 
 
 // Profiles -> Rotas
-$router->get("/profile", "");
+$router->get("/perfil", "ProfileController@index");
+$router->post("/perfil", "ProfileController@update");
+$router->get("/seguranca", "ProfileController@security");
+$router->post("/seguranca", "ProfileController@updatePassword");
