@@ -30,7 +30,7 @@ class SchoolUser extends AbstractModel
         "user_id" => "O usuário é obrigatório",
         "shift" => "O turno é obrigatório",
     ];
-    protected bool $timestamps = false;
+    protected bool $timestamps = true;
 
     public function getId(): ?int
     {

@@ -17,7 +17,7 @@ class RolePermission extends AbstractModel
         "role_id" => "Este dado é obrigatório.",
         "permission_id" => "Este dado é obrigatório.",
     ];
-    protected bool $timestamps = true;
+    protected bool $timestamps = false;
 
     protected bool $softDelete = false;
 
