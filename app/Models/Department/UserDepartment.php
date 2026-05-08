@@ -34,7 +34,7 @@ class UserDepartment extends AbstractModel
         "department_id" => "O departamento é obrigatório",
         "shift" => "O turno é obrigatório",
     ];
-    protected bool $timestamps = false;
+    protected bool $timestamps = true;
     protected bool $softDelete = true;
 
     public function getId(): ?int
