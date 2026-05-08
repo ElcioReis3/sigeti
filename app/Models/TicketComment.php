@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ticket;
 
 use App\Core\AbstractModel;
-use App\Core\Auth;
-use http\Exception\InvalidArgumentException;
+use App\Models\User;
 
 class TicketComment extends AbstractModel
 {
