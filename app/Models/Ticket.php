@@ -260,7 +260,7 @@ class Ticket extends AbstractModel
 
             if (!$openedBy) {
                 $errors[] = "Usuário não encontrado ou não existe.";
-            } elseif ($openedBy->getRole() !== User::TEACHER) {
+            } elseif ($openedBy->getRole() !== User::TEACH) {
                 $errors[] = "O usuário selecionado não tem o perfil de PROFESSOR.";
             }
 
@@ -285,7 +285,7 @@ class Ticket extends AbstractModel
 
             if (!$assignedTo) {
                 $errors[] = "Usuário não encontrado ou não existe.";
-            } elseif ($assignedTo->getRole() !== User::TECHNICIAN) {
+            } elseif ($assignedTo->getRole() !== User::TECHNICAL) {
                 $errors[] = "O usuário selecionado não tem o perfil de TÉCNICO.";
             }
         }
@@ -304,7 +304,7 @@ class Ticket extends AbstractModel
         return $errors;
     }
 
-    public function validateTechnician(array $data): ?array
+    public function validateTechnical(array $data): ?array
     {
         $errors = [];
 
@@ -312,7 +312,7 @@ class Ticket extends AbstractModel
             $assignedTo = User::find((int)$data['assigned_to']);
             if (!$assignedTo) {
                 $errors[] = "Técnico não encontrado ou não existe.";
-            } elseif ($assignedTo->getRole() !== User::TECHNICIAN) {
+            } elseif ($assignedTo->getRole() !== User::TECHNICAL) {
                 $errors[] = "O técnico selecionado não tem o perfil de TÉCNICO.";
             }
         }
@@ -580,4 +580,6 @@ class Ticket extends AbstractModel
 
         return $result;
     }
+
+
 }
