@@ -5,8 +5,7 @@ namespace App\Controllers\Technical;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Permission;
-use App\Models\Ticket;
-use App\Models\User;
+use App\Models\Ticket\Ticket;
 
 class DashboardController extends Controller
 {

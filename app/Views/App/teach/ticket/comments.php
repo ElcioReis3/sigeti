@@ -80,9 +80,9 @@ $loggedUserId = \App\Core\Auth::user()->id;
                                 <div class="col-12 col-md-4 mb-3">
                                     <small class="text-muted d-block">Prioridade</small>
                                     <?php $priority = $ticket->getPriority(); ?>
-                                    <?php if ($priority === \App\Models\Ticket::LOW): ?>
+                                    <?php if ($priority === \App\Models\Ticket\Ticket::LOW): ?>
                                         <span class="badge bg-danger">Alta</span>
-                                    <?php elseif ($priority === \App\Models\Ticket::MEAN): ?>
+                                    <?php elseif ($priority === \App\Models\Ticket\Ticket::MEAN): ?>
                                         <span class="badge bg-warning">Média</span>
                                     <?php else: ?>
                                         <span class="badge bg-secondary">Baixa</span>
@@ -91,15 +91,15 @@ $loggedUserId = \App\Core\Auth::user()->id;
                                 <div class="col-12 col-md-4 mb-3">
                                     <small class="text-muted d-block">Status</small>
                                     <?php $status = $ticket->getStatus(); ?>
-                                    <?php if ($status === \App\Models\Ticket::OPEN): ?>
+                                    <?php if ($status === \App\Models\Ticket\Ticket::OPEN): ?>
                                         <span class="badge bg-warning">Aberto</span>
-                                    <?php elseif ($status === \App\Models\Ticket::IN_PROGRESS): ?>
+                                    <?php elseif ($status === \App\Models\Ticket\Ticket::IN_PROGRESS): ?>
                                         <span class="badge bg-primary">Em Andamento</span>
-                                    <?php elseif ($status === \App\Models\Ticket::WAITING): ?>
+                                    <?php elseif ($status === \App\Models\Ticket\Ticket::WAITING): ?>
                                         <span class="badge bg-info">Aguardando</span>
-                                    <?php elseif ($status === \App\Models\Ticket::RESOLVED): ?>
+                                    <?php elseif ($status === \App\Models\Ticket\Ticket::RESOLVED): ?>
                                         <span class="badge bg-success">Resolvido</span>
-                                    <?php elseif ($status === \App\Models\Ticket::FINISHED): ?>
+                                    <?php elseif ($status === \App\Models\Ticket\Ticket::FINISHED): ?>
                                         <span class="badge bg-dark">Finalizado</span>
                                     <?php else: ?>
                                         <span class="badge bg-secondary">Arquivado</span>

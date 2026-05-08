@@ -9,8 +9,7 @@ use App\Core\Message;
 use App\Core\Permission;
 use App\Models\Category;
 use App\Models\School;
-use App\Models\SchoolUser;
-use App\Models\Ticket;
+use App\Models\Ticket\Ticket;
 use App\Models\User;
 
 class TicketController extends Controller

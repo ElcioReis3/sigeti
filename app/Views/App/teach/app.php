@@ -177,13 +177,8 @@
 
 
 <!-- Need: Apexcharts -->
-<!--//Novo-->
-<script src="<?= assets_mazer('/assets/extensions/dayjs/dayjs.min.js') ?>"></script>
 <script src="<?= assets_mazer('/assets/extensions/apexcharts/apexcharts.min.js') ?>"></script>
-
-<!--//Novo-->
-<script src="<?= assets('/js/charts/chart-tickets-month.js') ?>"></script>
-<script src="<?= assets('/js/charts/chart-tickets-category.js') ?>"></script>
+<script src="<?= assets_mazer('/assets/static/js/pages/dashboard.js') ?>"></script>
 
 <script src="<?= assets_mazer('/assets/extensions/jquery/jquery.min.js') ?>"></script>
 <script src="<?= assets_mazer('/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?>"></script>

@@ -84,64 +84,6 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item has-sub <?= ($menuActive ?? '') === 'escolas' ? 'active' : '' ?>">
-                        <a href="" class="sidebar-link">
-                            <i class="bi bi-building"></i>
-                            <span>Escolas</span>
-                        </a>
-                        <ul class="submenu">
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'escolas' && ($submenuActive ?? '') === 'nova' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/escolas/cadastrar') ?>" class="submenu-link">Nova</a>
-                            </li>
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'escolas' && ($submenuActive ?? '') === 'todos' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/escolas') ?>" class="submenu-link">Todos</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Novo -->
-                    <li class="sidebar-item has-sub <?= ($menuActive ?? '') === 'usuarios' ? 'active' : '' ?>">
-                        <a href="" class="sidebar-link">
-                            <i class="bi bi-building"></i>
-                            <span>Usuários</span>
-                        </a>
-                        <ul class="submenu">
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'usuarios' && ($submenuActive ?? '') === 'novo' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/usuarios/cadastrar') ?>" class="submenu-link">Nova</a>
-                            </li>
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'usuarios' && ($submenuActive ?? '') === 'todos' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/usuarios') ?>" class="submenu-link">Todos</a>
-                            </li>
-                            <li class="submenu-item">
-                                <a href="<?= url('/tecnico/usuarios/solicitacoes') ?>" class="submenu-link">Solicitações</a>
-                            </li>
-
-                            <li class="submenu-item">
-                                <a href="<?= url('/tecnico/usuarios/professores') ?>" class="submenu-link">Professores</a>
-                            </li>
-
-                            <li class="submenu-item">
-                                <a href="<?= url('/tecnico/usuarios/tecnicos') ?>" class="submenu-link">Técnicos</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Categorias-->
-                    <li class="sidebar-item has-sub <?= ($menuActive ?? '') === 'categorias' ? 'active' : '' ?>">
-                        <a href="" class="sidebar-link">
-                            <i class="bi bi-tag-fill"></i>
-                            <span>Categorias</span>
-                        </a>
-                        <ul class="submenu">
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'categorias' && ($submenuActive ?? '') === 'nova' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/categorias/cadastrar') ?>" class="submenu-link">Nova</a>
-                            </li>
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'categorias' && ($submenuActive ?? '') === 'todos' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/categorias') ?>" class="submenu-link">Todos</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li class="sidebar-item  has-sub <?= ($menuActive ?? '') === 'chamados' ? 'active' : '' ?>">
                         <a href="" class='sidebar-link'>
                             <i class="bi bi-ticket-detailed-fill"></i>
@@ -264,14 +206,11 @@
 <script src="<?= assets_mazer('/assets/extensions/dayjs/dayjs.min.js') ?>"></script>
 <script src="<?= assets_mazer('/assets/extensions/apexcharts/apexcharts.min.js') ?>"></script>
 
-
-
 <script src="<?= assets('/js/charts/chart-tickets-month.js') ?>"></script>
 <script src="<?= assets('/js/charts/chart-tickets-category.js') ?>"></script>
+<script src="<?= assets('/js/charts/chart-resolution-rate.js') ?>"></script>
 <script src="<?= assets('/js/charts/chart-avg-resolution.js') ?>"></script>
 <script src="<?= assets('/js/charts/chart-tickets-priority.js') ?>"></script>
-
-
 
 <script src="<?= assets_mazer('/assets/extensions/jquery/jquery.min.js') ?>"></script>
 <script src="<?= assets_mazer('/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?>"></script>

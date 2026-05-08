@@ -1,6 +1,6 @@
 <?= $this->layout('technical/app', [
         'title' => $title ?? "Dashboard | Técnico - " . APP_NAME,
-        'menuActive' => 'dashboard',
+        'menuActive' => 'dashboard'
 ]) ?>
 
 <div id="main">
@@ -17,7 +17,6 @@
     <?= \App\Core\Message::render() ?>
 
     <div class="page-content">
-
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
@@ -32,7 +31,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Abertos</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::OPEN] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::OPEN] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +48,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Andamento</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::IN_PROGRESS] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::IN_PROGRESS] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +65,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Aguardando</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::WAITING] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::WAITING] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +82,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Resolvidos</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::RESOLVED] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::RESOLVED] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +99,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Finalizados</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::FINISHED] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::FINISHED] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +116,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Arquivados</h6>
-                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket::ARCHIVED] ?? 0 ?></h6>
+                                        <h6 class="font-extrabold mb-0"><?= $quantityTicketsByStatus[\App\Models\Ticket\Ticket::ARCHIVED] ?? 0 ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +134,16 @@
                             </div>
                         </div>
                     </div>
+                    <!--                    <div class="col-lg-4">-->
+                    <!--                        <div class="card">-->
+                    <!--                            <div class="card-header">-->
+                    <!--                                <h4>Taxa de <strong>Resolução</strong></h4>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="card-body">-->
+                    <!--                                <div id="chart-resolution-rate"></div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-header">
@@ -255,14 +264,20 @@
                                             </small>
                                         </td>
                                         <td>
-                                            <a href="<?= url('/tecnico/chamados/editar/' . $ticket->getId()) ?>"
-                                               class="btn btn-sm btn-warning">
-                                                <i class="bi bi-pencil-fill"></i> Editar
-                                            </a>
-                                            <a href="<?= url('/tecnico/chamados/' . $ticket->getId() . '/comentarios') ?>"
-                                               class="btn btn-sm btn-info">
-                                                <i class="bi bi-chat-dots-fill"></i> Comentar
-                                            </a>
+                                            <div class="d-flex gap-1 flex-wrap">
+                                                <a href="<?= url('/tecnico/chamados/editar/' . $ticket->getId()) ?>"
+                                                   class="btn btn-sm btn-warning"
+                                                   title="Editar">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                    <span class="d-none d-xl-inline ms-1">Editar</span>
+                                                </a>
+                                                <a href="<?= url('/tecnico/chamados/' . $ticket->getId() . '/comentarios') ?>"
+                                                   class="btn btn-sm btn-info"
+                                                   title="Comentar">
+                                                    <i class="bi bi-chat-dots-fill"></i>
+                                                    <span class="d-none d-xl-inline ms-1">Comentar</span>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -305,11 +320,11 @@
 
     <script>
         window.dashboardData = {
-            quantityTicketsByMonth: <?= json_encode($quantityTicketsByMonth ?? []) ?>,
-            quantityTicketsByCategory: <?= json_encode($quantityTicketsByCategory ?? []) ?>,
-            avgResolutionDays: <?= json_encode($avgResolutionDays ?? []) ?>,
-            ticketsByPriorityAndStatus: <?= json_encode($ticketsByPriorityAndStatus ?? []) ?>
-        }
+            quantityTicketsByMonth: <?= json_encode($quantityTicketsByMonth) ?>,
+            quantityTicketsByCategory: <?= json_encode($quantityTicketsByCategory) ?>,
+            resolutionRate: <?= json_encode($resolutionRate) ?>,
+            avgResolutionDays: <?= json_encode($avgResolutionDays) ?>,
+            ticketsByPriorityAndStatus: <?= json_encode($ticketsByPriorityAndStatus) ?>,
+        };
     </script>
-
 </div>

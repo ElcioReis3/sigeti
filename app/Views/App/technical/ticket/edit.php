@@ -135,13 +135,13 @@
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="bi bi-flag-fill"></i></span>
                                                 <select name="priority" id="priority" class="form-select" required>
-                                                    <option value="baixa" <?= $ticket->getPriority() === \App\Models\Ticket::LOW ? 'selected' : '' ?>>
+                                                    <option value="baixa" <?= $ticket->getPriority() === \App\Models\Ticket\Ticket::LOW ? 'selected' : '' ?>>
                                                         Baixa
                                                     </option>
-                                                    <option value="media" <?= $ticket->getPriority() === \App\Models\Ticket::MEAN ? 'selected' : '' ?>>
+                                                    <option value="media" <?= $ticket->getPriority() === \App\Models\Ticket\Ticket::MEAN ? 'selected' : '' ?>>
                                                         Média
                                                     </option>
-                                                    <option value="alta" <?= $ticket->getPriority() === \App\Models\Ticket::HIGH ? 'selected' : '' ?>>
+                                                    <option value="alta" <?= $ticket->getPriority() === \App\Models\Ticket\Ticket::HIGH ? 'selected' : '' ?>>
                                                         Alta
                                                     </option>
                                                 </select>
@@ -156,22 +156,22 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-activity"></i></span>
                                         <select name="status" id="status" class="form-select" required>
-                                            <option value="aberto" <?= $ticket->getStatus() === \App\Models\Ticket::OPEN ? 'selected' : '' ?>>
+                                            <option value="aberto" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::OPEN ? 'selected' : '' ?>>
                                                 Aberto
                                             </option>
-                                            <option value="em_andamento" <?= $ticket->getStatus() === \App\Models\Ticket::IN_PROGRESS ? 'selected' : '' ?>>
+                                            <option value="em_andamento" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::IN_PROGRESS ? 'selected' : '' ?>>
                                                 Em Andamento
                                             </option>
-                                            <option value="aguardando" <?= $ticket->getStatus() === \App\Models\Ticket::WAITING ? 'selected' : '' ?>>
+                                            <option value="aguardando" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::WAITING ? 'selected' : '' ?>>
                                                 Aguardando
                                             </option>
-                                            <option value="resolvido" <?= $ticket->getStatus() === \App\Models\Ticket::RESOLVED ? 'selected' : '' ?>>
+                                            <option value="resolvido" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::RESOLVED ? 'selected' : '' ?>>
                                                 Resolvido
                                             </option>
-                                            <option value="finalizado" <?= $ticket->getStatus() === \App\Models\Ticket::FINISHED ? 'selected' : '' ?>>
+                                            <option value="finalizado" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::FINISHED ? 'selected' : '' ?>>
                                                 Finalizado
                                             </option>
-                                            <option value="arquivado" <?= $ticket->getStatus() === \App\Models\Ticket::ARCHIVED ? 'selected' : '' ?>>
+                                            <option value="arquivado" <?= $ticket->getStatus() === \App\Models\Ticket\Ticket::ARCHIVED ? 'selected' : '' ?>>
                                                 Arquivado
                                             </option>
                                         </select>
