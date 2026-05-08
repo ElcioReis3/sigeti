@@ -31,6 +31,7 @@ class SchoolUser extends AbstractModel
         "shift" => "O turno é obrigatório",
     ];
     protected bool $timestamps = true;
+    protected bool $softDelete = false;
 
     public function getId(): ?int
     {
