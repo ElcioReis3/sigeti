@@ -18,6 +18,7 @@ class Category extends AbstractModel
         "description" => "O campo description é obrigatorio.",
     ];
     protected bool $timestamps = true;
+    protected bool $softDelete = true;
 
     public function getId():?int
     {
