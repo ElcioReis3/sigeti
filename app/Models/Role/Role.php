@@ -123,4 +123,17 @@ class Role extends AbstractModel
 
         return $errors;
     }
+
+    public static function totalRoles():?int
+    {
+        $instance = new static();
+        $sql = "select count(*) from roles where deleted_at IS NULL";
+
+        $statement = $instance->connection->prepare($sql);
+        $statement->execute();
+
+        $totalRoles = $statement->fetchColumn();
+
+        return $totalRoles;
+    }
 }
