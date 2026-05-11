@@ -2,15 +2,18 @@
 
 namespace App\Controllers\Admin;
 
-use App\Core\AbstractModel;
-use App\Core\Auth;
 
-class DashboardController extends AbstractModel
+use App\Core\Auth;
+use App\Core\Controller;
+use App\Core\Permission;
+
+class DashboardController extends Controller
 {
     public function __construct()
     {
         parent::__construct("App");
 
+        Auth::requirePermission(Permission::VIEW_MANAGER_DASHBOARD);
     }
 
     public function index(): void
