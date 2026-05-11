@@ -158,6 +158,66 @@
                 </div>
             </div>
 
+            <!-- Tabela de usuários registrados -->
+            <div class="col-12 col-xl-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-people-fill me-2"></i>
+                            Usuários Registrados
+                        </h5>
+                        <a href="<?= url('/admin/usuarios') ?>" class="btn btn-sm btn-primary">
+                            Ver todos
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Perfil</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php if (!empty($recentRegisteredUsers)): ?>
+                                    <?php foreach ($recentRegisteredUsers as $user): ?>
+                                        <tr>
+                                            <td>
+                                                <i class="bi bi-person-fill text-primary me-1"></i>
+                                                <?= htmlspecialchars($user->getName()) ?>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">
+                                                    <?= htmlspecialchars($user->role()?->getName() ?? '—') ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <?php if ($user->getStatus() === \App\Models\User::ACTIVE): ?>
+                                                    <span class="badge bg-success">Ativo</span>
+                                                <?php elseif ($user->getStatus() === \App\Models\User::INACTIVE): ?>
+                                                    <span class="badge bg-danger">Inativo</span>
+                                                <?php else: ?>
+                                                    <span class="badge bg-warning">Registrado</span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted fst-italic py-3">
+                                            Nenhum usuário cadastrado ainda.
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Tabela de perfis cadastrados -->
             <div class="col-12 col-xl-6">
                 <div class="card">
