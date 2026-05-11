@@ -1,14 +1,9 @@
 <?php
 
 
-use CoffeeCode\Router\Router;
-
-$router = new Router( APP_URL, "@");
-$router->namespace("app\Controllers");
-
 // Admin -> Rotas
+$router->group(null);
 $router->group("/admin");
-//$router->get("/admin", "Admin\\DashboardController@index");
 
 $router->get("/dashboard", "Admin\DashboardController@index");
 
