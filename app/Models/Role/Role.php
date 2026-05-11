@@ -5,7 +5,7 @@ use App\Core\AbstractModel;
 
 class Role extends AbstractModel
 {
-    protected string $table = "role";
+    protected string $table = "roles";
 
     protected string $primaryKey = "id";
 
