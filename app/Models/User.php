@@ -337,6 +337,56 @@ class User extends AbstractModel
         return (new static())->where("role", "=", $role)->get();
     }
 
+    public static function totalUsers():?int
+    {
+        $instance = new static();
+        $sql = "select count(*) from users where deleted_at IS NULL and status = 'ativo'";
+
+        $statement = $instance->connection->prepare($sql);
+        $statement->execute();
+
+        $totalUsers = $statement->fetchColumn();
+
+        return $totalUsers;
+    }
+
+    public static function recentUsers():?array
+    {
+        $instance = new static();
+        $sql = "select * from users where deleted_at IS NULL and status != 'inativo' order by created_at desc limit 7";
+
+        $statement = $instance->connection->prepare($sql);
+        $statement->execute();
+
+        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        $recentUsers = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $recentUsers[] = static::hydrate($row);
+        }
+
+        return $recentUsers;
+    }
+
+    public static function recentRegisteredUsers():?array
+    {
+        $instance = new static();
+        $sql = "select * from users where deleted_at IS NULL and status = 'registrado'";
+
+        $statement = $instance->connection->prepare($sql);
+        $statement->execute();
+
+        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        $recentRegisteredUsers = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $recentRegisteredUsers[] = static::hydrate($row);
+        }
+
+        return $recentRegisteredUsers;
+    }
 
 
 }
