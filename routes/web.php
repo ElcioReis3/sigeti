@@ -91,9 +91,13 @@ $router->post("/chamados/cadastrar", "Teach\\TicketController@store");
 $router->get("/chamados/{ticket_id}/comentarios", "Teach\\TicketCommentController@index");
 $router->post("/chamados/{ticket_id}/comentarios", "Teach\\TicketCommentController@store");
 
+require __DIR__ . '/admin.php';
+require __DIR__ . '/profile.php';
 
 $router->group(null);
 $router->get("/erro/{errorCode}", "ErrorController@index");
+
+
 
 $router->dispatch();
 
