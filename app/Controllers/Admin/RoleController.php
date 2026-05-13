@@ -40,5 +40,50 @@ class RoleController extends Controller
 
     }
 
+    public function store(?array $data): void
+    {
+        Auth::requirePermission(Permission::CREATE_ROLE);
+        $this->validateCsrfToken($data, "/admin/perfis/cadastrar");
+
+        $role = new Role();
+
+        $payload = [
+            'name' => $data['name'],
+            'description' => $data['description']
+        ];
+
+        $errors = array_merge(
+            $role->validate($payload),
+        );
+
+        if ($errors) {
+            flash_old($data);
+
+            foreach ($errors as $error) {
+                Message::warning($error);
+            }
+            redirect("/admin/perfis/cadastrar");
+            return;
+        }
+
+        try {
+
+            $role->fill($payload);
+            $role->save();
+
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+
+            Message::error($invalidArgumentException->getMessage());
+            redirect("/admin/perfis/cadastrar");
+            return;
+        }
+
+        Message::success("Peril criado com sucesso!.");
+        redirect("/admin/perfis/");
+
+
+        clear_old();
+    }
+
 
 }
