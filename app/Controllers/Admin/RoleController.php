@@ -32,5 +32,13 @@ class RoleController extends Controller
         ]);
     }
 
+    public function create(?array $data): void
+    {
+        Auth::requirePermission(Permission::CREATE_ROLE);
+
+        echo $this->view->render("admin/role/create");
+
+    }
+
 
 }
