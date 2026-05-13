@@ -110,8 +110,4 @@ class Permission
     public const VIEW_SYSTEM_LOG = "ver_log_sistema";
 
     public const MANAGE_SESSIONS = "gerenciar_sessoes";
-
-
-
-
 }
