@@ -150,6 +150,20 @@ class RoleController extends Controller
 
     }
 
+    public function destroy(?array $data): void
+    {
+        try {
+            $role = Role::find($data['id']);
+            $role->delete();
+            Message::success("Perfil removido com sucesso!");
+            redirect("/admin/perfis");
+            return;
 
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            Message::error($invalidArgumentException->getMessage());
+            redirect("/admin/perfis");
+            return;
+        }
+    }
 
 }
