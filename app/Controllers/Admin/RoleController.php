@@ -85,5 +85,27 @@ class RoleController extends Controller
         clear_old();
     }
 
+    public function edit(?array $data): void
+    {
+        Auth::requirePermission(Permission::EDIT_ROLE);
+        $role = Role::find($data['id']);
+
+        if(!$role){
+            Message::warning("Esse Peril não existe!");
+            redirect("/admin/perfis");
+            return;
+        }
+
+        $roles = Role::all();
+
+
+        echo $this->view->render("admin/role/edit", [
+            "roles" => $roles,
+            "role" => $role
+        ]);
+
+        clear_old();
+    }
+
 
 }
