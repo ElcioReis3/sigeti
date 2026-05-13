@@ -152,6 +152,8 @@ class TicketController extends Controller
 
     public function edit(?array $data): void
     {
+        Auth::requirePermission(Permission::EDIT_TICKET);
+
         $ticket = Ticket::find($data['id']);
 
         if(!$ticket){
@@ -174,6 +176,7 @@ class TicketController extends Controller
 
     public function update(?array $data): void
     {
+        Auth::requirePermission(Permission::EDIT_TICKET);
         $this->validateCsrfToken($data, "/tecnico/chamados/editar/" . $data["id"]);
 
         $ticket = Ticket::find($data['id']);
@@ -224,6 +227,7 @@ class TicketController extends Controller
 
     public function destroy(?array $data): void
     {
+        Auth::requirePermission(Permission::DELETE_TICKET);
         try {
             $ticket = Ticket::find($data['id']);
             $ticket->delete();
