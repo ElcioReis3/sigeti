@@ -107,5 +107,49 @@ class RoleController extends Controller
         clear_old();
     }
 
+    public function update(?array $data): void
+    {
+        $this->validateCsrfToken($data, "/admin/perfis/editar/" . $data["id"]);
+        $role = Role::find($data['id']);
+
+        try {
+            if(!$role){
+                Message::error("Esse perfil não existe!");
+                redirect("/admin/perfis");
+                return;
+            }
+
+            $errors = array_merge(
+                $role->validate($data),
+            );
+
+            if ($errors) {
+                flash_old($data);
+                foreach ($errors as $error) {
+                    Message::warning($error);
+                }
+                redirect("/admin/perfis/editar/" . $role->getId());
+            }
+
+            $role->fill([
+                "name"=> $data["name"],
+                "description" => $data["description"],
+            ]);
+
+
+            $role->save();
+
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            Message::error($invalidArgumentException->getMessage());
+            redirect("/admin/perfis/editar/" . $role->getId());
+            return;
+        }
+
+        Message::success("Perfil atualizado com sucesso!");
+        redirect("/admin/perfis/editar/" . $role->getId());
+
+    }
+
+
 
 }
