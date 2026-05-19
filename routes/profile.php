@@ -1,7 +1,8 @@
 <?php
 
+$router->group(null);
 
-// Profiles -> Rotas
+/** Perfil unificado — qualquer usuário autenticado */
 $router->get("/perfil", "ProfileController@index");
 $router->post("/perfil", "ProfileController@update");
 $router->get("/seguranca", "ProfileController@security");

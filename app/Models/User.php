@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Core\AbstractModel;
+use App\Models\Auth\UserProfile;
 use App\Models\Department\UserDepartment;
 use App\Models\Role\Role;
 use App\Models\Role\RolePermission;
-use http\Exception\InvalidArgumentException;
+use App\Models\Ticket\Ticket;
 
 class User extends AbstractModel
 {
     protected string $table = "users";
 
-    protected string $primaryKey = "id";
+    protected string $primaryKey = 'id';
 
     protected array $fillable = [
         "name",
@@ -20,35 +21,32 @@ class User extends AbstractModel
         "password",
         "document",
         "role_id",
-        "role",
         "last_login_at",
         "status",
         "reset_token",
-        "reset_expires_at",
+        "reset_expires_at"
     ];
 
     protected array $required = [
-        "name" => "O campo nome é obrigatorio.",
-        "email" => "O campo description é obrigatorio.",
-        "password" => "O campo senha é obrigatorio.",
-        "role_id"=> "O campo PERFIL é obrigatorio.",
+        "name" => "O campo NOME é obrigatório.",
+        "email" => "O campo EMAIL é obrigatório.",
+        "password" => "O campo SENHA é obrigatório.",
+        "role_id" => "O campo PERFIL é obrigatório.",
     ];
+
     protected bool $timestamps = true;
+
     protected bool $softDelete = true;
-    public const TECHNICAL = "tecnico";
-    public const TEACH = "professor";
-    private const ROLES = [
-        self::TEACH,
-        self::TECHNICAL,
-    ];
 
     public const REGISTERED = "registrado";
     public const ACTIVE = "ativo";
     public const INACTIVE = "inativo";
-    private const STATUS = [
-        self::REGISTERED, self::ACTIVE, self::INACTIVE
-    ];
 
+    private const STATUS = [
+        self::REGISTERED,
+        self::ACTIVE,
+        self::INACTIVE,
+    ];
 
     public function getId(): ?int
     {
@@ -76,8 +74,8 @@ class User extends AbstractModel
         $email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
 
         if (!$email) {
-            throw new \InvalidArgumentException("O email deve ser válido.");
-        };
+            throw new \InvalidArgumentException("O e-mail é inválido.");
+        }
 
         $this->attributes["email"] = $email;
     }
@@ -93,9 +91,9 @@ class User extends AbstractModel
             throw new \InvalidArgumentException("A senha não pode ser vazia.");
         }
 
-        if (strlen($password) < 6 || strlen($password) > 17) {
-            throw new \InvalidArgumentException("A senha deve conter no minimo 6 caracteres.");
-        };
+        if (strlen($password) < 8 || strlen($password) > 16) {
+            throw new \InvalidArgumentException("A senha deve ter entre 8 e 16 caracteres.");
+        }
 
         $this->attributes["password"] = password_hash($password, PASSWORD_DEFAULT);
     }
@@ -110,14 +108,14 @@ class User extends AbstractModel
         return password_verify($password, $this->attributes["password"] ?? null);
     }
 
-    public function setDocument(string $document): void
+    public function setDocument(?string $document): void
     {
-        if ($document) {
-            $document = preg_replace("/[^0-9]/", "", $document);
+        if ($document !== null) {
+            $document = preg_replace('/[^0-9]/', '', $document);
 
             if (strlen($document) !== 11) {
-                throw new \InvalidArgumentException("O documento deve conter apenas 11 caracteres.");
-            };
+                throw new \InvalidArgumentException("O documento deve ter exatamente 11 dígitos.");
+            }
         }
 
         $this->attributes["document"] = $document;
@@ -125,38 +123,21 @@ class User extends AbstractModel
 
     public function getDocument(): ?string
     {
-        return $this->attributes["document"];
-    }
-
-    public function setRole(?string $role): void
-    {
-        $role = $role ?? self::TEACH;
-
-        if (!in_array($role, self::ROLES)) {
-            throw new \InvalidArgumentException("O perfil não é válido.");
-        };
-
-        $this->attributes["role"] = $role;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->attributes["role"];
+        return $this->attributes["document"] ?? null;
     }
 
     public function setRoleId(int $roleId): void
     {
-
-        if ($roleId < 1) {
-            throw new \InvalidArgumentException("O ID perfil não é válido.");
-        };
+        if ($roleId <= 0) {
+            throw new \InvalidArgumentException("O perfil informado é inválido.");
+        }
 
         $this->attributes["role_id"] = $roleId;
     }
 
-    public function getRoleId(): ?string
+    public function getRoleId(): ?int
     {
-        return $this->attributes["role_id"];
+        return $this->attributes["role_id"] ?? null;
     }
 
     public function role(): ?Role
@@ -171,6 +152,80 @@ class User extends AbstractModel
         }
 
         return RolePermission::userHasPermission($this->getRoleId(), $permission);
+    }
+
+    public function profile(): ?UserProfile
+    {
+        return UserProfile::findByUser($this->getId());
+    }
+
+    public function setLastLoginAt(): void
+    {
+        $timezone = new \DateTimeZone(APP_TIMEZONE);
+        $now = new \DateTimeImmutable("now", $timezone);
+
+        $this->attributes["last_login_at"] = $now->format("Y-m-d H:i:s");
+    }
+
+    public function getLastLoginAt(): ?string
+    {
+        return $this->attributes["last_login_at"] ?? null;
+    }
+
+    public function setStatus(?string $status): void
+    {
+        $status = $status ?? self::REGISTERED;
+
+        if (!in_array($status, self::STATUS, true)) {
+            throw new \InvalidArgumentException("O status é inválido.");
+        }
+
+        $this->attributes["status"] = $status;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->attributes["status"];
+    }
+
+    public static function findByEmail(?string $email): ?self
+    {
+        return (new static())->where("email", "=", $email)->first();
+    }
+
+    public function setResetToken(): string
+    {
+        $token = bin2hex(random_bytes(32));
+
+        $this->attributes["reset_token"] = hash("sha256", $token);
+        $this->setResetExpiresAt();
+
+        return $token;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->attributes["reset_token"] ?? null;
+    }
+
+    public function setResetExpiresAt(): void
+    {
+        $timezone = new \DateTimeZone(APP_TIMEZONE);
+        $expiresAt = new \DateTimeImmutable("now", $timezone);
+
+        $this->attributes["reset_expires_at"] = $expiresAt->modify("+2 hours")->format("Y-m-d H:i:s");
+    }
+
+    public function getResetExpiresAt(): ?string
+    {
+        return $this->attributes["reset_expires_at"] ?? null;
+    }
+
+    public static function findByResetToken(string $token): ?self
+    {
+        $hash = hash("sha256", $token);
+
+        return (new static())->where("reset_token", "=", $hash)->first();
     }
 
     public static function usersByPermission(string $permission): array
@@ -205,6 +260,18 @@ class User extends AbstractModel
         return UserDepartment::linksByUser($this->getId());
     }
 
+    public function departmentUserLinks(): array
+    {
+        return UserDepartment::linksByUser($this->getId());
+    }
+
+    public function existsTickets(): bool
+    {
+        return (new Ticket())
+                ->where("opened_by", "=", $this->getId())
+                ->count() > 0;
+    }
+
     public function existsDepartmentLinks(): bool
     {
         return (new UserDepartment())
@@ -212,181 +279,69 @@ class User extends AbstractModel
                 ->count() > 0;
     }
 
-    public function setLastLoginAt(): void
+    public function existsUserByEmail(string $email, ?int $ignoreId = null): bool
     {
-        $timezone = new  \DateTimeZone(APP_TIMEZONE);
-        $now = new \DateTimeImmutable('now', $timezone);
-        $this->attributes["last_login_at"] = $now->format('Y-m-d H:i:s');
-    }
-
-    public function getLastLoginAt(): ?string
-    {
-        return $this->attributes["last_login_at"];
-    }
-
-    public function setStatus(?string $status): void
-    {
-        $status = $status ?? self::REGISTERED;
-
-        if (!in_array($status, self::STATUS)) {
-            throw new \InvalidArgumentException("O status não é válido.");
-        };
-
-        $this->attributes["status"] = $status;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->attributes["status"];
-    }
-
-    public static function findByEmail(?string $email): ?self
-    {
-        return $user = (new static())->where("email", "=", $email)->first();
-    }
-
-    public function findByCode(?string $code): self
-    {
-        return $user = (new static())->where("code", "=", $code)->first();
-    }
-
-    public function setResetToken(): string
-    {
-        $token = bin2hex(random_bytes(32));
-        $this->attributes["reset_token"] = hash("sha256", $token);
-        $this->setResetExpiresAt();
-        return $token;
-    }
-
-    public function getResetToken(): ?string
-    {
-        return $this->attributes["reset_token"] ?? null;
-    }
-
-    public function setResetExpiresAt(): void
-    {
-        $timezone = new \DateTimeZone(APP_TIMEZONE);
-        $expiresAt = new \DateTimeImmutable("now", $timezone);
-        $this->attributes["reset_expires_at"] = $expiresAt->modify("+2 hours")->format("Y-m-d H:i:s");
-    }
-
-    public function getResetExpiresAt(): ?string
-    {
-        return $this->attributes["reset_expires_at"] ?? null;
-    }
-
-    public static function findByResetToken(string $token): ?self
-    {
-        return (new static())->where("reset_token", "=", $token)->first();
-    }
-
-    public function getUserByEmail(string $email): ?self
-    {
-        return $this->where("email", "=", $email)->first();
-    }
-
-    public function getUserByDocument(string $document): ?self
-    {
-        return $this->where("document", "=", $document)->first();
-    }
-
-    public function existsByDocument(string $document, ?int $ignoreId = null): bool
-    {
-        $query = (new static())->where("document", "=", $document);
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE email = :email AND deleted_at IS NULL";
+        $params = ["email" => $email];
 
         if ($ignoreId) {
-            $query->where("id", "!=", $ignoreId);
+            $sql .= " AND id != :ignore_id";
+            $params["ignore_id"] = $ignoreId;
         }
 
-        return $query->first() !== null;
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        return (int)$statement->fetchColumn() > 0;
     }
-    public function existsByEmail(string $email, ?int $ignoreId = null): bool
+
+    public function existsUserByDocument(string $document, ?int $ignoreId = null): bool
     {
-        $query = (new static())->where("email", "=", $email);
+        $document = preg_replace('/[^0-9]/', '', $document);
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE document = :document AND deleted_at IS NULL";
+        $params = ["document" => $document];
 
         if ($ignoreId) {
-            $query->where("id", "!=", $ignoreId);
+            $sql .= " AND id != :ignore_id";
+            $params["ignore_id"] = $ignoreId;
         }
 
-        return $query->first() !== null;
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        return (int)$statement->fetchColumn() > 0;
     }
 
-    public function validateBusinessRule(?int $ignoreId = null):array
+    public function validateBusinessRule(?int $ignoreId = null): array
     {
-            $errors = [];
+        $errors = [];
 
-        if ($this->existsByEmail($this->getEmail(), $ignoreId)) {
-            $errors[] = "Já existe um usuário com esse mesmo email.";
+        if ($this->existsUserByEmail($this->getEmail(), $ignoreId)) {
+            $errors[] = "Já existe um usuário com esse e-mail.";
         }
 
         $document = $this->getDocument();
-        if ($document !== null && $this->existsByDocument($document, $ignoreId)) {
-            $errors[] = "Já existe um usuário com esse mesmo documento.";
+        if ($document !== null && $this->existsUserByDocument($document, $ignoreId)) {
+            $errors[] = "Já existe um usuário com esse documento.";
         }
 
         return $errors;
     }
 
-    public function schoolUserLinks():?array
+    public function totalNumberOfActiveAndRegisteredUsersNotDeleted(): ?int
     {
-       return (new SchoolUser())->where("user_id", "=", $this->getId())->get();
+        return (new static())
+            ->where("status", "!=", 'inativo')
+            ->orderBy("created_at", "DESC")
+            ->count();
     }
 
-    public static function userByRole(string $role):?array
+    public function recentlyCreatedActiveRegisteredAndNonDeletedUsers(): ?array
     {
-        return (new static())->where("role", "=", $role)->get();
+        return (new static())
+            ->where("status", "!=", 'inativo')
+            ->orderBy("created_at", "DESC")
+            ->limit(5)
+            ->get();
     }
-
-    public static function totalUsers():?int
-    {
-        $instance = new static();
-        $sql = "select count(*) from users where deleted_at IS NULL and status = 'ativo'";
-
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute();
-
-        $totalUsers = $statement->fetchColumn();
-
-        return $totalUsers;
-    }
-
-    public static function recentUsers():?array
-    {
-        $instance = new static();
-        $sql = "select * from users where deleted_at IS NULL and status != 'inativo' order by created_at desc limit 7";
-
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute();
-
-        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        $recentUsers = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        foreach ($rows as $row) {
-            $recentUsers[] = static::hydrate($row);
-        }
-
-        return $recentUsers;
-    }
-
-    public static function recentRegisteredUsers():?array
-    {
-        $instance = new static();
-        $sql = "select * from users where deleted_at IS NULL and status = 'registrado'";
-
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute();
-
-        $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        $recentRegisteredUsers = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        foreach ($rows as $row) {
-            $recentRegisteredUsers[] = static::hydrate($row);
-        }
-
-        return $recentRegisteredUsers;
-    }
-
-
 }

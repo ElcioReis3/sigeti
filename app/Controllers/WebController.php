@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\User;
 
 class WebController extends Controller
 {
@@ -11,11 +12,10 @@ class WebController extends Controller
         parent::__construct();
     }
 
-    public function index():void
+    public function index(): void
     {
-        $title = "Home - " . APP_NAME;
-        echo $this->view->render('home', [
-            "title" => $title,
+        echo $this->view->render("home", [
+            "title" => "Home | " . APP_NAME
         ]);
     }
 }

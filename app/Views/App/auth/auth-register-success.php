@@ -9,7 +9,7 @@
 <h1 class="auth-title text-center">Conta criada com sucesso</h1>
 
 <p class="auth-subtitle mb-5 text-center">
-     Agora você já pode acessar o sistema.
+    Sua conta foi criada com sucesso. Agora você já pode acessar o sistema.
 </p>
 
 <div class="text-center mt-3">

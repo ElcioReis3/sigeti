@@ -78,7 +78,7 @@ class Email
             return true;
 
         } catch (Exception $mailException) {
-            throw new \InvalidArgumentException("Erro ao enviar e-mail: ". $mailException->getMessage());
+            throw new \InvalidArgumentException("Erro ao enviar e-mail: ", $mailException->getMessage());
         }
     }
 }

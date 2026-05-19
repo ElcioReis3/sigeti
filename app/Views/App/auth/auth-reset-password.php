@@ -7,7 +7,7 @@
 
 <?= \App\Core\Message::render() ?>
 
-<form action="<?= url("/resetar-senha") ?>" method="post">
+<form action="<?= url('/resetar-senha') ?>" method="post">
     <div class="form-group position-relative has-icon-left mb-4">
 
         <?= csrf_input() ?>

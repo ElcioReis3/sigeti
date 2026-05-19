@@ -120,21 +120,6 @@
 
                     <li class="sidebar-title">Configurações</li>
 
-                    <li class="sidebar-item has-sub <?= ($menuActive ?? '') === 'escolas' ? 'active' : '' ?>">
-                        <a href="" class="sidebar-link">
-                            <i class="bi bi-building"></i>
-                            <span>Escolas</span>
-                        </a>
-                        <ul class="submenu">
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'escolas' && ($submenuActive ?? '') === 'nova' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/escolas/cadastrar') ?>" class="submenu-link">Nova</a>
-                            </li>
-                            <li class="submenu-item <?= ($menuActive ?? '') === 'escolas' && ($submenuActive ?? '') === 'todos' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/escolas') ?>" class="submenu-link">Todas</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li class="sidebar-item has-sub <?= ($menuActive ?? '') === 'categorias' ? 'active' : '' ?>">
                         <a href="" class="sidebar-link">
                             <i class="bi bi-tag-fill"></i>
@@ -142,10 +127,10 @@
                         </a>
                         <ul class="submenu">
                             <li class="submenu-item <?= ($menuActive ?? '') === 'categorias' && ($submenuActive ?? '') === 'nova' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/categorias/cadastrar') ?>" class="submenu-link">Nova</a>
+                                <a href="<?= url('/admin/categorias/cadastrar') ?>" class="submenu-link">Nova</a>
                             </li>
                             <li class="submenu-item <?= ($menuActive ?? '') === 'categorias' && ($submenuActive ?? '') === 'todos' ? 'active' : '' ?>">
-                                <a href="<?= url('/tecnico/categorias') ?>" class="submenu-link">Todas</a>
+                                <a href="<?= url('/admin/categorias') ?>" class="submenu-link">Todas</a>
                             </li>
                         </ul>
                     </li>

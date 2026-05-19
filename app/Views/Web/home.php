@@ -2,18 +2,19 @@
         "title" => $title
 ]) ?>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <section id="hero" class="hero section">
 
     <div class="container">
         <div class="row gy-4">
             <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-justify">
-                <h1 data-aos="fade-up">Gerencie chamados de forma simples, rápida e eficiente</h1>
-                <p data-aos="fade-up" data-aos-delay="100"> O SIGETI é um sistema completo para controle de
-                    chamados, suporte técnico e atendimento, ajudando sua equipe a organizar demandas, acompanhar
-                    atendimentos e aumentar a produtividade.</p>
+                <h1 data-aos="fade-up">Gerencie chamados e solicitações de qualquer setor em um só lugar.</h1>
+                <p data-aos="fade-up" data-aos-delay="100">O SIGETI é um sistema web completo para abertura,
+                    acompanhamento e resolução de chamados e solicitações internas. Organizado, rastreável e acessível
+                    de qualquer dispositivo — para qualquer organização que precise de controle real sobre seus
+                    atendimentos.</p>
                 <div class="d-flex flex-column flex-md-row" data-aos="fade-up" data-aos-delay="200">
-                    <a href="#about" class="btn-get-started">Começar agora <i class="bi bi-arrow-right"></i></a>
+                    <a href="#about" class="btn-get-started">Começar agora<i class="bi bi-arrow-right"></i></a>
                     <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
                        class="glightbox btn-watch-video d-flex align-items-center justify-content-center ms-0 ms-md-4 mt-4 mt-md-0"><i
                                 class="bi bi-play-circle"></i><span>Veja como funciona</span></a>
@@ -26,9 +27,9 @@
     </div>
 
 </section>
-<!-- /Hero Section -->
+<!-- /Hero -->
 
-<!-- About Section -->
+<!-- Sobre -->
 <section id="about" class="about section">
 
     <div class="container" data-aos="fade-up">
@@ -36,8 +37,8 @@
 
             <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
                 <div class="content text-justify">
-                    <h3>Sobre o SIGETI</h3>
-                    <h2>Uma solução completa para gestão de chamados e suporte técnico.</h2>
+                    <h3>Por que o SIGETI existe?</h3>
+                    <h2>Um sistema de chamados feito para qualquer organização, de qualquer ramo.</h2>
                     <p>
                         O SIGETI CAX foi desenvolvido para facilitar o controle de chamados, melhorar a organização
                         das demandas e otimizar o atendimento em equipes de suporte.
@@ -67,9 +68,9 @@
     </div>
 
 </section>
-<!-- /About Section -->
+<!-- /About -->
 
-<!-- Stats Section -->
+<!-- Stats -->
 <section id="stats" class="stats section">
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -78,9 +79,9 @@
 
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item d-flex align-items-center w-100 h-100">
-                    <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
+                    <i class="bi bi-headset color-blue flex-shrink-0"></i>
                     <div>
-                        <span data-purecounter-end="120">120</span>
+                        <span data-purecounter-end="120">+1500</span>
                         <p>Chamados gerenciados</p>
                     </div>
                 </div>
@@ -88,9 +89,9 @@
 
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item d-flex align-items-center w-100 h-100">
-                    <i class="bi bi-journal-richtext color-orange flex-shrink-0" style="color: #ee6c20;"></i>
+                    <i class="bi bi-people color-orange flex-shrink-0" style="color: #ee6c20;"></i>
                     <div>
-                        <span data-purecounter-end="45">45</span>
+                        <span data-purecounter-end="45">+80</span>
                         <p>Usuários atendidos</p>
                     </div>
                 </div>
@@ -98,20 +99,20 @@
 
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item d-flex align-items-center w-100 h-100">
-                    <i class="bi bi-headset color-green flex-shrink-0" style="color: #15be56;"></i>
+                    <i class="bi bi-house color-green flex-shrink-0" style="color: #15be56;"></i>
                     <div>
-                        <span data-purecounter-end="300">300</span>
-                        <p>Horas otimizadas</p>
+                        <span data-purecounter-end="300">+30</span>
+                        <p>Organizações atendidas</p>
                     </div>
                 </div>
             </div><!-- End Stats Item -->
 
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item d-flex align-items-center w-100 h-100">
-                    <i class="bi bi-people color-pink flex-shrink-0" style="color: #bb0852;"></i>
+                    <i class="bi bi-window-desktop color-pink flex-shrink-0" style="color: #bb0852;"></i>
                     <div>
-                        <span data-purecounter-end="3">3</span>
-                        <p>Instituições atendidas</p>
+                        <span data-purecounter-end="3">+300</span>
+                        <p>Setores atendidos</p>
                     </div>
                 </div>
             </div><!-- End Stats Item -->
@@ -121,15 +122,15 @@
     </div>
 
 </section>
-<!-- /Stats Section -->
+<!-- /Stats -->
 
-<!-- Services Section -->
+<!-- Services -->
 <section id="services" class="services section">
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Soluções</h2>
-        <p>Como o SIGETI otimiza o atendimento técnico<br></p>
+        <p>O que o SIGETI entrega para a sua organização<br></p>
     </div><!-- End Section Title -->
 
     <div class="container">
@@ -139,8 +140,8 @@
                 <div class="service-item item-cyan position-relative">
                     <i class="bi bi-ticket-detailed icon"></i>
                     <h3>Abertura de Chamados</h3>
-                    <p>Permita que setores registrem solicitações de suporte técnico de forma simples, rápida e
-                        organizada.</p>
+                    <p>Qualquer colaborador registra uma solicitação de forma simples e rápida — sem mensagens
+                        informais, sem risco de perda. Tudo documentado e rastreável desde o primeiro momento.</p>
                 </div>
             </div>
 
@@ -148,8 +149,8 @@
                 <div class="service-item item-orange position-relative">
                     <i class="bi bi-kanban icon"></i>
                     <h3>Gestão de Atendimentos</h3>
-                    <p>Organize e acompanhe chamados por status, prioridade e responsável, garantindo mais controle
-                        no fluxo de atendimento.</p>
+                    <p>Organize e acompanhe chamados por status, prioridade e responsável. Tenha controle total sobre o
+                        fluxo de atendimento e saiba exatamente o que está pendente, em andamento ou resolvido.</p>
                 </div>
             </div>
 
@@ -157,8 +158,8 @@
                 <div class="service-item item-teal position-relative">
                     <i class="bi bi-people icon"></i>
                     <h3>Atendimento por Setores</h3>
-                    <p>Gerencie solicitações de diferentes secretarias, escolas ou departamentos em um único sistema
-                        centralizado.</p>
+                    <p>Gerencie solicitações de diferentes setores, departamentos ou unidades em um único sistema
+                        centralizado. Cada área com sua visão, tudo integrado em um só lugar.</p>
                 </div>
             </div>
 
@@ -166,8 +167,8 @@
                 <div class="service-item item-red position-relative">
                     <i class="bi bi-clock-history icon"></i>
                     <h3>Histórico de Chamados</h3>
-                    <p>Tenha acesso completo ao histórico de atendimentos, facilitando auditorias e acompanhamento
-                        de demandas.</p>
+                    <p>Acesse o histórico completo de todas as solicitações — quem abriu, quem atendeu, quanto tempo
+                        levou e como foi resolvido. Informação disponível sempre que precisar.</p>
                 </div>
             </div>
 
@@ -175,8 +176,8 @@
                 <div class="service-item item-indigo position-relative">
                     <i class="bi bi-bar-chart icon"></i>
                     <h3>Relatórios e Indicadores</h3>
-                    <p>Gere relatórios estratégicos sobre tempo de atendimento, volume de chamados e desempenho da
-                        equipe de TI.</p>
+                    <p>Acompanhe volume de chamados, tempo médio de atendimento e desempenho por setor. Dados reais para
+                        decisões mais precisas e gestão mais eficiente.</p>
                 </div>
             </div>
 
@@ -184,8 +185,8 @@
                 <div class="service-item item-pink position-relative">
                     <i class="bi bi-shield-lock icon"></i>
                     <h3>Controle de Acesso</h3>
-                    <p>Defina permissões por usuário ou setor, garantindo segurança e organização das
-                        informações.</p>
+                    <p>Defina perfis de acesso por função — solicitante, atendente ou administrador. Cada usuário acessa
+                        apenas o que precisa, garantindo segurança e organização das informações.</p>
                 </div>
             </div>
 
@@ -193,15 +194,15 @@
     </div>
 
 </section>
-<!-- /Services Section -->
+<!-- /Services -->
 
 <!-- Pricing Section -->
 <section id="pricing" class="pricing section">
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2>Planos</h2>
-        <p>Escolha o plano ideal para sua instituição<br></p>
+        <h2>Planos flexíveis para cada tipo de organização</h2>
+        <p>Do essencial ao corporativo — encontre o plano certo para o tamanho e a necessidade da sua operação.<br></p>
     </div><!-- End Section Title -->
 
     <div class="container">
@@ -254,7 +255,7 @@
                     </div>
                     <ul>
                         <li>Tudo do plano profissional</li>
-                        <li>Múltiplas secretarias/unidades</li>
+                        <li>Múltiplos setores</li>
                         <li>Relatórios personalizados</li>
                         <li>Suporte prioritário</li>
                         <li>Implantação assistida</li>
@@ -288,18 +289,21 @@
                     <div class="faq-item faq-active">
                         <h3>O que é o SIGETI?</h3>
                         <div class="faq-content">
-                            <p>O SIGETI é um sistema de gestão de chamados voltado para equipes de TI, permitindo
-                                organizar, acompanhar e otimizar atendimentos técnicos em instituições e órgãos
-                                públicos.</p>
+                            <p>O SIGETI é um sistema web de gestão de chamados e solicitações internas para qualquer
+                                tipo de organização. Com ele, colaboradores abrem solicitações, responsáveis gerenciam
+                                os atendimentos e gestores acompanham tudo em tempo real — de qualquer dispositivo com
+                                internet.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
 
                     <div class="faq-item">
-                        <h3>O sistema pode ser utilizado por prefeituras?</h3>
+                        <h3>Quais tipos de organização podem usar o SIGETI?</h3>
                         <div class="faq-content">
-                            <p>Sim. O SIGETI foi projetado para atender prefeituras e instituições, permitindo o
-                                gerenciamento de chamados entre diferentes secretarias e setores.</p>
+                            <p>Qualquer organização que precise gerenciar solicitações internas de forma organizada e
+                                rastreável. Empresas de qualquer ramo, escolas, clínicas, construtoras, prefeituras,
+                                faculdades, secretarias — o SIGETI foi desenvolvido para ser flexível o suficiente para
+                                atender contextos diferentes.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
@@ -307,8 +311,9 @@
                     <div class="faq-item">
                         <h3>É possível gerenciar vários setores no mesmo sistema?</h3>
                         <div class="faq-content">
-                            <p>Sim. O sistema permite cadastrar múltiplos setores ou unidades, centralizando todos
-                                os chamados em um único ambiente organizado.</p>
+                            <p>Sim. O SIGETI permite cadastrar múltiplos setores, departamentos ou unidades,
+                                centralizando todas as solicitações em um único ambiente. Cada setor tem sua visão e os
+                                gestores acompanham tudo consolidado.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
@@ -320,10 +325,12 @@
                 <div class="faq-container">
 
                     <div class="faq-item">
-                        <h3>Como funciona o suporte técnico?</h3>
+                        <h3>Como funciona o atendimento dentro do sistema?</h3>
                         <div class="faq-content">
-                            <p>Oferecemos suporte técnico para auxiliar na implantação e uso do sistema, garantindo
-                                que sua equipe utilize todas as funcionalidades de forma eficiente.</p>
+                            <p>O colaborador abre a solicitação descrevendo o problema ou demanda. O responsável pelo
+                                atendimento recebe, assume, pode comentar e atualiza o status conforme avança. O
+                                solicitante acompanha tudo em tempo real até o encerramento — com registro completo no
+                                histórico.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
@@ -331,17 +338,20 @@
                     <div class="faq-item">
                         <h3>O sistema é seguro?</h3>
                         <div class="faq-content">
-                            <p>Sim. O SIGETI possui controle de acesso por usuários e níveis de permissão,
-                                garantindo a segurança das informações e dos chamados registrados.</p>
+                            <p>Sim. O SIGETI possui controle de acesso com perfis e níveis de permissão definidos por
+                                função. Cada usuário acessa apenas o que precisa, garantindo a segurança e a integridade
+                                das informações.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
 
                     <div class="faq-item">
-                        <h3>Como contratar o SIGETI?</h3>
+                        <h3>O SIGETI pode ser customizado para a minha organização?</h3>
                         <div class="faq-content">
-                            <p>Basta entrar em contato através do formulário ou botão de atendimento. Nossa equipe
-                                irá entender sua necessidade e apresentar a melhor solução.</p>
+                            <p>Sim. O SIGETI foi desenvolvido com uma arquitetura flexível que permite customização de
+                                fluxos, perfis, categorias e departamentos conforme a necessidade de cada organização.
+                                Entre em contato e nossa equipe vai entender o seu contexto para apresentar a melhor
+                                solução.</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                     </div>
@@ -363,14 +373,30 @@
 
         <div class="container section-title" data-aos="fade-up">
             <h2>Equipe</h2>
-            <p>Desenvolvedores do SIGETI</p>
+            <p>Conheça quem construiu o SIGETI</p>
         </div>
 
         <div class="container">
 
             <div class="row gy-4 justify-content-center">
 
-
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="<?= assets_flex_start('/assets/img/team/nayra.jpeg') ?>" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-whatsapp"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info text-center">
+                            <h4>Nayra Geovana</h4>
+                            <span>Desenvolvedora</span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
                     <div class="team-member">
@@ -393,24 +419,6 @@
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
                     <div class="team-member">
                         <div class="member-img">
-                            <img src="<?= assets_flex_start('/assets/img/team/nayra.jpeg') ?>" class="img-fluid"
-                                 alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-whatsapp"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info text-center">
-                            <h4>Nayra Geovana</h4>
-                            <span>Desenvolvedora</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-                    <div class="team-member">
-                        <div class="member-img">
                             <img src="<?= assets_flex_start('/assets/img/team/elcio.jpeg') ?>" class="img-fluid"
                                  alt="">
                             <div class="social">
@@ -420,7 +428,7 @@
                             </div>
                         </div>
                         <div class="member-info text-center">
-                            <h4>Elcio Reis</h4>
+                            <h4>Élcio Reis</h4>
                             <span>Desenvolvedor</span>
                         </div>
                     </div>
@@ -429,26 +437,6 @@
             </div>
 
             <div class="row gy-4 justify-content-center mt-4">
-
-
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?= assets_flex_start('/assets/img/team/francisco.jpeg') ?>" class="img-fluid"
-                                 alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-whatsapp"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info text-center">
-                            <h4>Francisco Kassio</h4>
-                            <span>Desenvolvedor</span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="team-member">
@@ -462,8 +450,26 @@
                             </div>
                         </div>
                         <div class="member-info text-center">
-                            <h4>Nayla Gabriela</h4>
+                            <h4>Náyla Gabrielle</h4>
                             <span>Desenvolvedora</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="<?= assets_flex_start('/assets/img/team/francisco.jpeg') ?>" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-whatsapp"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info text-center">
+                            <h4>Kássio Filho</h4>
+                            <span>Desenvolvedor</span>
                         </div>
                     </div>
                 </div>
@@ -502,7 +508,7 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Contato</h2>
-        <p>Fale com a equipe do SIGETI</p>
+        <p>A sua organização precisa de um sistema de chamados profissional? Fale com a equipe do SIGETI.</p>
     </div><!-- End Section Title -->
 
     <div class="container" style="margin-bottom: 100px" data-aos="fade-up" data-aos-delay="100">
@@ -580,8 +586,8 @@
                         <div class="col-12 text-center">
                             <div class="loading">Enviando...</div>
                             <div class="error-message"></div>
-                            <div class="sent-message">Mensagem enviada com sucesso! Em breve entraremos em
-                                contato.
+                            <div class="sent-message">Mensagem recebida! Nossa equipe entrará em contato em até 1 dia
+                                útil.
                             </div>
 
                             <button type="submit">Enviar Mensagem</button>

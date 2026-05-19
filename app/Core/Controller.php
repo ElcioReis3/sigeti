@@ -13,10 +13,10 @@ class Controller
         $this->view = new Engine(__DIR__ . "/../Views/" . $pathView, "php");
     }
 
-    protected function validateCsrfToken(array $data, string $route):void
+    protected function validateCsrfToken(array $data, string $route): void
     {
-        if(!$data || !csrf_verify($data['_csrf'] ?? null)) {
-            Message::error("Token de segurança inválido.");
+        if (!$data || !csrf_verify($data['_csrf'] ?? null)) {
+            Message::error("Token de segurança inválido");
             redirect($route);
             return;
         }

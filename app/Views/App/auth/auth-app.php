@@ -24,21 +24,7 @@
         <div class="col-lg-5 col-12">
             <div id="auth-left">
                 <div class="auth-logo">
-                    <div class="d-flex justify-content-center align-center">
-
-
-                        <a href="<?= url('/') ?>" class="" >
-
-                            <div class="d-flex gap-2 justify-content-center">
-                                <div class="text-center h-100 d-flex align-center justify-content-center">
-                                    <img src="<?= assets_flex_start('/assets/img/logo.png') ?>" alt="SIGETI" class=" ">
-
-                                </div>
-
-                            </div>
-
-                        </a>
-                    </div>
+                    <a href=""><img src="<?= assets_mazer('/assets/compiled/svg/logo.svg') ?>" alt="Logo"></a>
                 </div>
 
                 <?= $this->section('content') ?>

@@ -1,25 +1,28 @@
 <?php
 
 namespace App\Models\Role;
+
 use App\Core\AbstractModel;
 
 class Role extends AbstractModel
 {
     protected string $table = "roles";
-
     protected string $primaryKey = "id";
 
-    protected array $fillable = ["name", "description", "is_protected"];
+    protected array $fillable = [
+        "name",
+        "description",
+        "is_protected",
+    ];
 
     protected array $required = [
         "name" => "O campo NOME é obrigatório.",
-
     ];
-    protected bool $timestamps = true;
 
+    protected bool $timestamps = true;
     protected bool $softDelete = true;
 
-    public function getId():?int
+    public function getId(): int
     {
         return $this->attributes["id"];
     }
@@ -28,47 +31,43 @@ class Role extends AbstractModel
     {
         $name = trim(strip_tags($name));
 
-        if (strlen($name) < 5) {
-            throw new \InvalidArgumentException("O nome do perfil deve ter pelo menos 5 caracteres.");
+        if (strlen($name) < 3) {
+            throw new \InvalidArgumentException("O nome do perfil deve ter pelo menos 3 caracteres.");
         }
 
-        if(strlen($name) > 50){
-            throw new \InvalidArgumentException("O nome do perfil deve ter até de 50 caracteres.");
+        if (strlen($name) > 100) {
+            throw new \InvalidArgumentException("O nome do perfil deve ter no máximo 100 caracteres.");
         }
 
         $this->attributes["name"] = $name;
-
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->attributes["name"];
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
-        $description = trim(strip_tags($description));
+        if ($description !== null) {
+            $description = trim(strip_tags($description));
 
-        if (strlen($description) < 15) {
-            throw new \InvalidArgumentException("A descrição deve conter no mínimo 15 caracteres.");
-        };
-
-        if(strlen($description) > 150){
-            throw new \InvalidArgumentException("A descrição do perfil deve ter até de 150 caracteres.");
+            if (strlen($description) > 255) {
+                throw new \InvalidArgumentException("A descrição deve ter no máximo 255 caracteres.");
+            }
         }
 
         $this->attributes["description"] = $description;
-
     }
 
     public function getDescription(): ?string
     {
-        return $this->attributes["description"];
+        return $this->attributes["description"] ?? null;
     }
 
-    public function setIsProtected(bool $isProtected):void
+    public function setIsProtected(bool $isProtected): void
     {
-        $this->attributes["is_protected"] = $isProtected ? 1: 0;
+        $this->attributes["is_protected"] = $isProtected ? 1 : 0;
     }
 
     public function isProtected(): bool
@@ -124,16 +123,17 @@ class Role extends AbstractModel
         return $errors;
     }
 
-    public static function totalRoles():?int
+    public function totalRoles(): ?int
     {
-        $instance = new static();
-        $sql = "select count(*) from roles where deleted_at IS NULL";
+        return (new static())
+            ->count();
+    }
 
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute();
-
-        $totalRoles = $statement->fetchColumn();
-
-        return $totalRoles;
+    public function recentlyCreatedAndNonDeletedRoles(): ?array
+    {
+        return (new static())
+            ->orderBy("created_at", "DESC")
+            ->limit(5)
+            ->get();
     }
 }

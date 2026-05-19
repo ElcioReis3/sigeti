@@ -7,8 +7,9 @@
 
 <?= \App\Core\Message::render() ?>
 
-<form action="<?= url("/redefinir-senha") ?>" method="post">
+<form action="<?= url('/redefinir-senha') ?>" method="post">
     <div class="form-group position-relative has-icon-left mb-4">
+
         <?= csrf_input() ?>
 
         <input type="email" name="email" class="form-control form-control-xl" placeholder="Email" required>
