@@ -182,7 +182,45 @@
                                 </div>
                             <?php endif; ?>
                         </div>
+                        <!-- Formulário Novo Comentário -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-chat-square-text-fill me-2"></i>
+                                    Adicionar Comentário
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="<?= url('/professor/chamados/' . $ticket->getId() . '/comentarios') ?>"
+                                      method="post">
+                                    <?= csrf_input() ?>
+                                    <div class="form-group">
+                                        <label for="comment" class="form-label">Comentário</label>
+                                        <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-chat-text-fill"></i>
+                                        </span>
+                                            <textarea name="comment" id="comment"
+                                                      class="form-control"
+                                                      placeholder="Digite seu comentário (mínimo 20 caracteres)"
+                                                      rows="4" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3 d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-send-fill me-1"></i>
+                                            Enviar Comentário
+                                        </button>
+                                        <a href="<?= url('/professor/chamados') ?>" class="btn btn-secondary">
+                                            <i class="bi bi-arrow-left-circle-fill me-1"></i>
+                                            Voltar
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
+
 
                     <!-- Anexos -->
                     <div class="card mb-4">
@@ -329,44 +367,6 @@
                                 </div>
                             <?php endif; ?>
 
-                        </div>
-                    </div>
-
-                    <!-- Formulário Novo Comentário -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-chat-square-text-fill me-2"></i>
-                                Adicionar Comentário
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <form action="<?= url('/professor/chamados/' . $ticket->getId() . '/comentarios') ?>"
-                                  method="post">
-                                <?= csrf_input() ?>
-                                <div class="form-group">
-                                    <label for="comment" class="form-label">Comentário</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="bi bi-chat-text-fill"></i>
-                                        </span>
-                                        <textarea name="comment" id="comment"
-                                                  class="form-control"
-                                                  placeholder="Digite seu comentário (mínimo 20 caracteres)"
-                                                  rows="4" required></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-3 d-flex gap-2">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-send-fill me-1"></i>
-                                        Enviar Comentário
-                                    </button>
-                                    <a href="<?= url('/professor/chamados') ?>" class="btn btn-secondary">
-                                        <i class="bi bi-arrow-left-circle-fill me-1"></i>
-                                        Voltar
-                                    </a>
-                                </div>
-                            </form>
                         </div>
                     </div>
 
