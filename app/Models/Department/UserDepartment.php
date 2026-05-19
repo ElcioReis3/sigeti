@@ -7,34 +7,22 @@ use App\Models\User;
 
 class UserDepartment extends AbstractModel
 {
-    protected string $table = 'user_departments';
-    protected string $primaryKey = 'id';
+    protected string $table = "user_departments";
 
-    public const MORNING = 'manha';
-    public const AFTERNOON = 'tarde';
-    public const EVENING = 'noite';
-    public const FULLDAY = 'integral';
-    public const NOT_APPLICABLE = 'não_aplicavel';
-    public const SHIFTS = [
-        self::MORNING,
-        self::AFTERNOON,
-        self::EVENING,
-        self::FULLDAY,
-        self::NOT_APPLICABLE,
-    ];
+    protected string $primaryKey = "id";
 
     protected array $fillable = [
-        'user_id',
-        'department_id',
-        'shift',
+        "user_id",
+        "department_id"
     ];
 
     protected array $required = [
-        "user_id" => "O usuário é obrigatório",
-        "department_id" => "O departamento é obrigatório",
-        "shift" => "O turno é obrigatório",
+        "user_id" => "O campo USUÁRIO é obrigatório.",
+        "department_id" => "O campo DEPARTAMENTO é obrigatório."
     ];
+
     protected bool $timestamps = true;
+
     protected bool $softDelete = true;
 
     public function getId(): ?int
@@ -44,24 +32,22 @@ class UserDepartment extends AbstractModel
 
     public function setUserId(int $userId): void
     {
-
-        if ($userId < 1) {
-            throw new \InvalidArgumentException("O ID do usuário é inválido.");
+        if ($userId <= 0) {
+            throw new \InvalidArgumentException("O usuário informado é inválido.");
         }
 
         $this->attributes["user_id"] = $userId;
     }
 
-    public function getUserId(): ?string
+    public function getUserId(): int
     {
         return $this->attributes["user_id"];
     }
 
     public function setDepartmentId(int $departmentId): void
     {
-
-        if ($departmentId < 1) {
-            throw new \InvalidArgumentException("O ID departamento é inválido.");
+        if ($departmentId <= 0) {
+            throw new \InvalidArgumentException("O departamento informado é inválido.");
         }
 
         $this->attributes["department_id"] = $departmentId;
@@ -70,22 +56,6 @@ class UserDepartment extends AbstractModel
     public function getDepartmentId(): int
     {
         return $this->attributes["department_id"];
-    }
-
-    public function setShift(?string $shift): void
-    {
-        $shift = $shift ?? self::NOT_APPLICABLE;
-
-        if (!in_array($shift, self::SHIFTS)) {
-            throw new \InvalidArgumentException("O turno não é válido.");
-        };
-
-        $this->attributes["shift"] = $shift;
-    }
-
-    public function getShift(): string
-    {
-        return $this->attributes["shift"];
     }
 
     public function department(): ?Department
@@ -98,67 +68,11 @@ class UserDepartment extends AbstractModel
         return User::find($this->getUserId());
     }
 
-    public function findByDepartmentAndUser(int $department_id, int $user_id): ?self
+    public static function linksByUser(int $userId): array
     {
-        return (new static())->where("department_id", "=", $department_id)->where("user_id", "=", $user_id)->first();
-    }
-
-    public static function linksByUser(int $userId): ?array
-    {
-        return (new static())->where("user_id", "=", $userId)->get();
-    }
-
-    public static function validateSchoolUserLinks(array $links): ?array
-    {
-        $errors = [];
-
-        if (empty($links)) {
-            return [
-                "Vincule o usuário a pelo menos uma departamento."
-            ];
-        }
-
-        $validDepartments = [];
-
-        foreach ($links as $link) {
-            $departmentId = $link["school_id"] ?? 0;
-
-            $existsDepartment = Department::find((int)$departmentId);
-            if (!$existsDepartment) {
-                unset($link);
-            } else {
-                $validDepartments[] = $link;
-            }
-        }
-
-        $links = $validDepartments;
-
-        $shifts = [];
-
-        foreach ($links as $link) {
-            if (!empty($link["shift"])) {
-                $shifts[] = $link["shift"];
-            }
-        }
-
-
-        $shiftCount = array_count_values($shifts);
-
-        foreach ($shiftCount as $shift => $count) {
-            if ($count > 1) {
-                $value = match ($shift) {
-                    self::FULLDAY => "INTEGRAL",
-                    self::MORNING => "MANHÃ",
-                    self::AFTERNOON => "TARDE",
-                    self::EVENING => "NOITE",
-
-                };
-
-                $errors[] = "O turno {$value} não pode ser usado em mais de um departamento.";
-            }
-        }
-
-        return $errors;
+        return (new static())
+            ->where("user_id", "=", $userId)
+            ->get();
     }
 
     public static function validateDepartments(array $links): array

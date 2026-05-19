@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\Controller;
+use App\Models\User;
 
 class ErrorController extends Controller
 {
@@ -16,7 +18,7 @@ class ErrorController extends Controller
         $errorCode = $data['errorCode'];
 
         echo $this->view->render("error", [
-            "title" => ($errorCode ?? 404) . ' - Erro 404 - ' . APP_NAME,
+            "title" => ($errorCode ?? 404) . ' - Erro | Técnico - ' . APP_NAME,
             "errorCode" => $errorCode,
         ]);
     }

@@ -3,19 +3,19 @@
 namespace App\Models\Department;
 
 use App\Core\AbstractModel;
+use App\Models\Ticket\Ticket;
 
 class Department extends AbstractModel
 {
     protected string $table = "departments";
 
-    protected string $primaryKey = 'id';
+    protected string $primaryKey = "id";
 
     protected array $fillable = [
         "name",
         "code",
         "description",
         "address",
-
     ];
 
     protected array $required = [
@@ -36,8 +36,8 @@ class Department extends AbstractModel
     {
         $name = trim(strip_tags($name));
 
-        if (strlen($name) < 15) {
-            throw new \InvalidArgumentException("O nome do departamento deve ter pelo menos 15 caracteres.");
+        if (strlen($name) < 3) {
+            throw new \InvalidArgumentException("O nome do departamento deve ter pelo menos 3 caracteres.");
         }
 
         if (strlen($name) > 150) {
@@ -49,40 +49,37 @@ class Department extends AbstractModel
 
     public function getName(): ?string
     {
-        return $this->attributes["name"];
+        return $this->attributes["name"] ?? null;
     }
 
     public function setCode(string $code): void
     {
-        $code = trim($code);
+        $code = trim(strtoupper($code));
 
         if (strlen($code) < 2) {
             throw new \InvalidArgumentException("O código do departamento deve ter pelo menos 2 caracteres.");
         }
 
         if (strlen($code) > 20) {
-            throw new \InvalidArgumentException("O código do departamento deve ter até 20 caracteres.");
+            throw new \InvalidArgumentException("O código do departamento deve ter no máximo 20 caracteres.");
         }
 
         $this->attributes["code"] = $code;
     }
 
-    public function getCode(): string
+    public function getCode(): ?string
     {
-        return $this->attributes["code"];
+        return $this->attributes["code"] ?? null;
     }
 
-
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
-        $description = trim(strip_tags($description));
+        if ($description !== null) {
+            $description = trim(strip_tags($description));
 
-        if (strlen($description) < 15) {
-            throw new \InvalidArgumentException("A descrição do departamento deve ter pelo menos 15 caracteres.");
-        }
-
-        if (strlen($description) > 250) {
-            throw new \InvalidArgumentException("A descrição do departamento deve ter no máximo 150 caracteres.");
+            if (strlen($description) > 255) {
+                throw new \InvalidArgumentException("A descrição deve ter no máximo 255 caracteres.");
+            }
         }
 
         $this->attributes["description"] = $description;
@@ -93,16 +90,14 @@ class Department extends AbstractModel
         return $this->attributes["description"] ?? null;
     }
 
-    public function setAddress(string $address): void
+    public function setAddress(?string $address): void
     {
-        $address = trim(strip_tags($address));
+        if ($address !== null) {
+            $address = trim(strip_tags($address));
 
-        if (strlen($address) < 5) {
-            throw new \InvalidArgumentException("O endereço do departamento deve ter pelo menos 5 caracteres.");
-        }
-
-        if (strlen($address) > 50) {
-            throw new \InvalidArgumentException("O endereço do departamento deve ter no máximo 50 caracteres.");
+            if (strlen($address) > 200) {
+                throw new \InvalidArgumentException("O endereço deve ter no máximo 200 caracteres.");
+            }
         }
 
         $this->attributes["address"] = $address;
@@ -110,54 +105,7 @@ class Department extends AbstractModel
 
     public function getAddress(): ?string
     {
-        return $this->attributes["address"];
-    }
-
-    public function findByCode(string $code): ?self
-    {
-        return (new static())->where("code", "=", $code)->first();
-    }
-
-    public function findByName(string $name): ?self
-    {
-        return (new static())->where("name", "=", $name)->first();
-    }
-
-    public function existsByName(string $name, ?int $ignoreId = null): bool
-    {
-        $query = (new static())->where("name", "=", $name);
-
-        if ($ignoreId) {
-            $query->where("id", "!=", $ignoreId);
-        }
-
-        return $query->first() !== null;
-    }
-
-    public function existsByCode(string $code, ?int $ignoreId = null): bool
-    {
-        $query = (new static())->where("code", "=", $code);
-
-        if ($ignoreId) {
-            $query->where("id", "!=", $ignoreId);
-        }
-
-        return $query->first() !== null;
-    }
-
-    public function validateBusinessRule(?int $ignoreId = null): array
-    {
-        $errors = [];
-
-        if ($this->existsByName($this->getName(), $ignoreId)) {
-            $errors[] = "Já existe um departamento com esse mesmo nome.";
-        }
-
-        if ($this->existsByCode($this->getCode(), $ignoreId)) {
-            $errors[] = "Já existe um departamento com esse mesmo código.";
-        }
-
-        return $errors;
+        return $this->attributes["address"] ?? null;
     }
 
     public function existsDepartmentByCode(string $code, ?int $ignoreId = null): bool
@@ -202,20 +150,28 @@ class Department extends AbstractModel
     public function existsTickets(): bool
     {
         return (new Ticket())
-                ->where("school_id", "=", $this->getId())
+                ->where("department_id", "=", $this->getId())
                 ->count() > 0;
     }
 
-    public static function totalDepartments():?int
+    public function validateBusinessRule(?int $ignoreId = null): array
     {
-        $instance = new static();
-        $sql = "select count(*) from departments where deleted_at IS NULL";
+        $errors = [];
 
-        $statement = $instance->connection->prepare($sql);
-        $statement->execute();
+        if ($this->existsDepartmentByName($this->getName(), $ignoreId)) {
+            $errors[] = "Já existe um departamento com esse nome.";
+        }
 
-        $totalDepartments = $statement->fetchColumn();
+        if ($this->existsDepartmentByCode($this->getCode(), $ignoreId)) {
+            $errors[] = "Já existe um departamento com esse código.";
+        }
 
-        return $totalDepartments;
+        return $errors;
+    }
+
+    public function totalDepartments(): ?int
+    {
+        return (new static())
+            ->count();
     }
 }

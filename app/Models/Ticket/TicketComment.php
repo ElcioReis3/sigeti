@@ -8,18 +8,21 @@ use App\Models\User;
 class TicketComment extends AbstractModel
 {
     protected string $table = 'tickets_comments';
+
     protected string $primaryKey = 'id';
+
     protected array $fillable = [
-        'ticket_id',
-        'user_id',
-        'comment',
+        "ticket_id",
+        "user_id",
+        "comment",
     ];
 
     protected array $required = [
-        "ticket_id" => "Este dado é obrigatório.",
-        "user_id" => "Este dado é obrigatório.",
-        "comment" => "O campo comentário é obrigatório.",
+        "ticket_id" => "O campo CHAMADO é obrigatório.",
+        "user_id" => "O campo USUÁRIO é obrigatório.",
+        "comment" => "O campo COMENTÁRIO é obrigatório."
     ];
+
     protected bool $timestamps = true;
 
     protected bool $softDelete = true;
@@ -34,22 +37,17 @@ class TicketComment extends AbstractModel
         $this->attributes["ticket_id"] = $ticketId;
     }
 
-    public function getTicketId(): ?string
+    public function getTicketId(): int
     {
         return $this->attributes["ticket_id"];
     }
 
     public function setUserId(int $userId): void
     {
-
-        if (!$userId) {
-            throw new \InvalidArgumentException("O código é obrigatório.");
-        }
-
         $this->attributes["user_id"] = $userId;
     }
 
-    public function getUserId(): ?string
+    public function getUserId(): ?int
     {
         return $this->attributes["user_id"];
     }
@@ -59,7 +57,12 @@ class TicketComment extends AbstractModel
         $comment = trim(strip_tags($comment));
 
         if (strlen($comment) < 20) {
-            throw new \InvalidArgumentException("O comentário pelo menos 20 caracteres.");
+            throw new \InvalidArgumentException("O comentário deve ter pelo menos 20 caracteres.");
+        }
+
+        //Novo
+        if (strlen($comment) > 1000) {
+            throw new \InvalidArgumentException("O comentário deve ter no máximo 1000 caracteres.");
         }
 
         $this->attributes["comment"] = $comment;
@@ -75,8 +78,6 @@ class TicketComment extends AbstractModel
         return $this->attributes["created_at"];
     }
 
-
-
     public function ticket(): ?Ticket
     {
         return Ticket::find($this->getTicketId());
@@ -87,30 +88,45 @@ class TicketComment extends AbstractModel
         return User::find($this->getUserId());
     }
 
+    //Novo
     public function validateBusinessRules(array $data): array
     {
         $errors = [];
 
-       $statusInvalid = [
-           Ticket::ARCHIVED,
-           Ticket::FINISHED
-       ];
+        if (!empty($data["ticket_id"])) {
+            $ticket = Ticket::find((int)$data["ticket_id"]);
 
-       $ticket = Ticket::find($data['ticket_id']);
+            if (!$ticket) {
+                $errors[] = "Chamado não encontrado ou não existe.";
+                return $errors;
+            }
 
+            $blocked = [Ticket::FINISHED, Ticket::ARCHIVED];
+            if (in_array($ticket->getStatus(), $blocked, true)) {
+                $labels = [
+                    Ticket::FINISHED => "Finalizado",
+                    Ticket::ARCHIVED => "Arquivado",
+                ];
 
-       if(in_array($ticket->getStatus(), $statusInvalid, true)) {
-           $errors[] =  "Não é possível realizar o comentário. O comentário está com status finalizado e/ou arquivado. ";
-       }
+                $label = $labels[$ticket->getStatus()];
+                $errors[] = "Não é possível comentar em um chamado com status '{$label}'.";
+            }
+        }
+
+        if (!empty($data["user_id"])) {
+
+            $user = User::find((int)$data["user_id"]);
+
+            if (!$user) {
+                $errors[] = "Usuário não encontrado ou não existe.";
+            }
+        }
 
         return $errors;
     }
 
-    public static function commentsByTicketId(Int $ticketId):?array
+    public static function commentsByTicketId(int $ticketId): ?array
     {
-        return (new static())->where('ticket_id', "=" , $ticketId)
-            ->orderBy("created_at" )
-            ->get();
+        return (new TicketComment())->where("ticket_id", "=", $ticketId)->get();
     }
-
 }

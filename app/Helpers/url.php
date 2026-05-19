@@ -41,7 +41,7 @@ function assets_sb_admin(string $path = null): string
 
 function assets_flex_start(string $path = null): string
 {
-    $base = APP_URL . "/resources/themes/template-landing-page";
+    $base = APP_URL . "/resources/themes/FlexStart-1.0.0";
 
     if ($path) {
         return $base . '/' . ltrim($path, '/');
@@ -52,7 +52,7 @@ function assets_flex_start(string $path = null): string
 
 function assets_mazer(string $path = null): string
 {
-    $base = APP_URL . "/resources/themes/template-adm";
+    $base = APP_URL . "/resources/themes/dist";
 
     if ($path) {
         return $base . '/' . ltrim($path, '/');
@@ -60,4 +60,3 @@ function assets_mazer(string $path = null): string
 
     return $base;
 }
-

@@ -5,9 +5,9 @@
 <h1 class="auth-title">Entrar</h1>
 <p class="auth-subtitle mb-5">Informe seus dados para entrar no SIGETI.</p>
 
-<?php echo \App\Core\Message::render() ?>
+<?= \App\Core\Message::render() ?>
 
-<form action="<?= url("/entrar") ?>" method="post">
+<form action="<?= url('/entrar') ?>" method="post">
 
     <?= csrf_input() ?>
 
@@ -42,7 +42,7 @@
     <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Entrar</button>
 </form>
 <div class="text-center mt-5 text-lg fs-4">
-    <p class="text-gray-600">Ainda não tem conta?<a href="<?= url('/cadastrar') ?>" class="font-bold">Criar agora.</a>
+    <p class="text-gray-600">Ainda não tem conta?<a href="<?= url('/cadastrar') ?>" class="font-bold"> Criar agora.</a>
     </p>
     <p><a class="font-bold" href="<?= url('/redefinir-senha') ?>">Esqueceu a senha?</a></p>
 </div>

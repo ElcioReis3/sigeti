@@ -5,13 +5,11 @@
 <h1 class="auth-title">Criar conta</h1>
 <p class="auth-subtitle mb-5">Informe seus dados para criar sua conta.</p>
 
-
-<?php echo \App\Core\Message::render() ?>
+<?= \App\Core\Message::render() ?>
 
 <form action="<?= url('/cadastrar') ?>" method="post">
 
     <?= csrf_input() ?>
-
 
     <div class="form-group position-relative has-icon-left mb-4">
         <input type="text" id="name" name="name" class="form-control form-control-xl" placeholder="Nome Completo"
